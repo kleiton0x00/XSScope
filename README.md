@@ -1,9 +1,9 @@
 ![XSS_scope](https://i.imgur.com/rSRvUx3.png)
 
-XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Also it can remote hijack webcam and keylog by sending special-crafted HTML into the victim.
+XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Also it can hijack webcam and keyboard of the victim by sending him/her a special-crafted HTML that XSScope generates within seconds.
 
 ## Features
-- Automatic payload generator for Bug Hunting
+- Automatic payload generator for Bug Hunting (Blind, Stored, Reflected & DOM XSS)
 - Camera Hijacking
 - Keylogger
 
@@ -18,7 +18,10 @@ Download pyngrok for Python3 in Linux:
 To run the software, simply enter the command:  
 ```python3 server.py```
 
-For more detailed usage please refer the Wiki.
+For more detailed usage please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Usages)
+
+## FAQ
+Please refer to the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ)
 
 ## Gallery
 #### XSScope IN ACTION
@@ -36,3 +39,6 @@ Ways to contribute
 Licensed under the GNU GPLv3, see [LICENSE](https://github.com/kleiton0x00/XSScope/blob/master/LICENSE) for more information.
 
 The Favicon Webcam Image generated is taken & modified from [wybircal](https://github.com/wybiral).
+
+## Contact
+For any problem, copyright disclaimers, etc. please feel free to email me: ```kurtikleiton@gmail.com```
