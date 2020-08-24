@@ -1,6 +1,6 @@
 ![XSS_scope](https://i.imgur.com/rSRvUx3.png)
 
-XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting by remote hijacking webcam and keylogging.
+XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Also it can remote hijack webcam and keylog by sending special-crafted HTML into the victim.
 
 ## Features
 - Automatic payload generator for Bug Hunting
