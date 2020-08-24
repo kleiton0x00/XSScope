@@ -20,6 +20,10 @@ To run the software, simply enter the command:
 
 For more detailed usage please refer the Wiki.
 
+## Gallery
+#### XSScope IN ACTION
+![XSScope_in_action](https://i.imgur.com/XCe4c3v.png)
+
 ## Contribution, Credits & License
 
 Ways to contribute
