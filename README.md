@@ -1,4 +1,3 @@
-# XSScope
 ![XSS_scope](https://i.imgur.com/rSRvUx3.png)
 
 XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting by remote hijacking webcam and keylogging.
