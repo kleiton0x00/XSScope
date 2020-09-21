@@ -160,7 +160,7 @@ window.addEventListener("load", InterceptForm());
 	var links = document.getElementsByTagName("a");
 	for (i=0; i<links.length; i++)
 	{
-		links[i].href = "''' + str(changelinks_entry.get()) + ''';
+		links[i].href = "''' + str(changelinks_entry.get()) + '''";
 		links[i].innerHTML = "Links Modified by Xsscope";
 	}
 </script>
