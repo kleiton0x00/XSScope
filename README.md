@@ -1,4 +1,7 @@
-![XSS_scope](https://i.imgur.com/rSRvUx3.png)
+![XSS_scope](https://i.imgur.com/rSRvUx3.png)  
+
+**_Go beyond the alert_**
+
 
 XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Using 8 modules that XSScope offers, advanced XSS can be simply use with 1 click.
 
@@ -8,6 +11,20 @@ XSScope is a XSS payload generator platform with an aim of increaing the impact 
 - Get every Entry form value that victim enters in the website
 - Get victim's cookies (if any)
 - Keylogger  
+
+*HTML code injection* 
+- Generate Phishing Websites with 2 clicks using pregenerated HTML codes such as:
+  - Amazon
+  - Google
+  - Line
+  - LinkedIn
+  - Steam
+  - Twitch
+  - Verizon
+  - WiFi (expired session)  
+- Generate Website Defacion with 2 clicks using a HTML template
+- Import HTML file from external file
+- Add your own HTML code
  
  *Funny modules:*  
 - Change every link in the website
@@ -25,17 +42,18 @@ zipfile
 pyperclip
 requests
 ```
-Note: Zipfile is not required if you are using Linux/MacOS.
+Note: Zipfile library is not required if you are using Linux/MacOS.
 
-## Usage
 **NOTE**: Before running script, make sure to put your [Ngrok Authtoken](https://ngrok.com/) into _/xsscope-master/ngrok_authtoken.txt_  
-To run the software, simply enter the command:  
-```python3 xsscope.py```
+First install [Ngrok](https://ngrok.com/) and get the AuthToken. Then execute this command to setup Ngrok:  
+```./ngrok authtoken paste_auth_token_here```  
+You are good to go, now run the software by executing:  
+```python3 xsscope.py```  
 
 For more detailed usage please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Usages)
 
 ## FAQ
-Please refer to the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ)
+Please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ) for more advanced tips.
 
 ## Gallery
 #### XSScope IN ACTION
@@ -45,6 +63,8 @@ Please refer to the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ)
 ![XSScope_in_action2](https://i.imgur.com/ICTM3bo.png)  
 ##### Generated XSS Payloads  
 ![XSScope_in_action3](https://i.imgur.com/c7DESrZ.png)  
+##### Generating Advanced Phishing HTML Website using XSS vulnerability
+![XSScope_in_action4](https://i.imgur.com/8CfVyFP.png)
 
 ## Contribution, Credits & License
 
@@ -57,7 +77,7 @@ Ways to contribute
 
 Licensed under the GNU GPLv3, see [LICENSE](https://github.com/kleiton0x00/XSScope/blob/master/LICENSE) for more information.
 
-The Favicon Webcam Image generated is taken & modified from [wybircal](https://github.com/wybiral).
+The Favicon Webcam Image generated (in Webcam Hijacking module) is taken & modified from [wybircal](https://github.com/wybiral).
 
 ## Contact
 For any problem, copyright disclaimers, etc. please feel free to email me: ```kurtikleiton@gmail.com```
