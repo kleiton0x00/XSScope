@@ -57,6 +57,9 @@ For more detailed usage please refer the [Wiki](https://github.com/kleiton0x00/X
 ## FAQ
 Please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ) for more advanced tips.
 
+## Demo
+For Demo go to [Wiki/Demo](https://github.com/kleiton0x00/XSScope/wiki/Demo)  
+
 ## Gallery
 #### XSScope IN ACTION
 ##### XSScope Main Interface.  
