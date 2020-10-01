@@ -2,17 +2,19 @@
 
 **_Go beyond the alert_**
 
+XSScope is an advanced XSS payload generator platform for Client-Side attacks and also with an aim of increaing the impact of an XSS during Bug Hunting. Using all modules that XSScope offers, advanced XSS can be simply use with 1-2 click(s).
 
-XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Using 8 modules that XSScope offers, advanced XSS can be simply use with 1 click.
+## Features  
+- Generates a Port Forwarding TCP and a Local PHP Server as well
+- Automatic payload generator for Bug Hunting (Blind, Stored, Reflected & DOM XSS)  
 
-## Features
-- Automatic payload generator for Bug Hunting (Blind, Stored, Reflected & DOM XSS)
+#### Spying Features  
 - Camera Hijacking
 - Get every Entry form value that victim enters in the website
 - Get victim's cookies (if any)
 - Keylogger  
 
-*HTML code injection* 
+#### HTML code injection  
 - Generate Phishing Websites with 2 clicks using pregenerated HTML codes such as:
   - Amazon
   - Google
@@ -26,7 +28,7 @@ XSScope is a XSS payload generator platform with an aim of increaing the impact 
 - Import HTML file from external file
 - Add your own HTML code
  
- *Funny modules:*  
+#### Funny modules:   
 - Change every link in the website
 - Change every image in the website
 - Clickjacker (redirect to another URI once user click somewhere on the website)
