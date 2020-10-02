@@ -71,6 +71,10 @@ For Demo go to [Wiki/Demo](https://github.com/kleiton0x00/XSScope/wiki/Demo)
 ##### Generating Advanced Phishing HTML Website using XSS vulnerability
 ![XSScope_in_action4](https://i.imgur.com/8CfVyFP.png)
 
+## Legal disclaimer:
+
+Usage of XSScope for attacking targets without prior mutual consent is illegal. It's the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program. Only use for educational purposes.
+
 ## Contribution, Credits & License
 
 Ways to contribute
