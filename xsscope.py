@@ -481,14 +481,11 @@ def check_update():
         update = tkinter.messagebox.askquestion("Check for update", "There is a newer version, do you want to update?")
         if update == 'yes':
             if platform == "linux" or platform == "linux2":
-                tkinter.messagebox.showinfo("Update information", "The software will begin to update, please be patient.")
-                #change_directory = "mv " + str(os.getcwd()) + " " + str(os.getcwd()) + "v1.3"
                 os.chdir("..")
                 shutil.rmtree('XSScope')
                 os.system("git clone https://github.com/kleiton0x00/XSScope.git")
-                #os.system(change_directory)
-
                 tkinter.messagebox.showinfo("Successful update", "Software successfuly updated, please restart the application.")
+
             if platform == "win32":
                 os.system('cd ..')
                 current_directory = os.getcwd()
