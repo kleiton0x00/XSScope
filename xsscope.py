@@ -485,7 +485,6 @@ def check_update():
                 os.system('cd ..')
                 os.system("git clone https://github.com/kleiton0x00/XSScope.git")
                 os.system(change_directory)
-                os.system('chmod +x XSScope-v1.3')
                 os.system('rm -rf XSScope')
 
                 tkinter.messagebox.showinfo("Successful update", "Software successfuly updated, please restart the application.")
