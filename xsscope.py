@@ -490,7 +490,7 @@ def check_update():
     old_version = float(version_file.read())
     version_file.close()
 
-    version_request = requests.get("https://raw.githubusercontent.com/kleiton0x00/XSScope/master/version.txt")
+    version_request = requests.get("https://raw.githubusercontent.com/kleiton0x00/XSScope/master/config/version.txt")
     new_version = float(version_request.content)
 
     if old_version >= new_version:
