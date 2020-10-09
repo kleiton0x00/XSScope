@@ -7,6 +7,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 ## Features  
 - Generates a Port Forwarding TCP and a Local PHP Server as well
 - Automatic payload generator for Bug Hunting (Blind, Stored, Reflected & DOM XSS)  
+- Remote Javascript Code Execution on the victim's browser  
 
 #### Spying Features  
 - Camera Hijacking
@@ -49,6 +50,9 @@ Note: Zipfile library is not required if you are using Linux/MacOS.
 **NOTE**: Before running script, make sure to put your [Ngrok Authtoken](https://ngrok.com/) into _/xsscope-master/ngrok_authtoken.txt_  
 First install [Ngrok](https://ngrok.com/) and get the AuthToken. Then execute this command to setup Ngrok:  
 ```./ngrok authtoken paste_auth_token_here```  
+
+If you want to use Reverse Shell module, please paste the URL domain generated in terminal (example: server-4c98fe66.localhost.run) into ```/config/tcpserver_domain.txt```  
+
 You are good to go, now run the software by executing:  
 ```python3 xsscope.py```  
 
