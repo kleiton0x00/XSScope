@@ -35,8 +35,9 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 - Clickjacker (redirect to another URI once user click somewhere on the website)
 
 ## Installation
-- Download the Github repo into your local machine:  
-```https://github.com/kleiton0x00/XSScope.git```  
+- Clone the Github repo into your local machine:  
+```git clone https://github.com/kleiton0x00/XSScope.git```  
+```cd XSScope```  
 **Note:** Zipfile library is not required if you are using Linux/MacOS. Ignore the error.  
 - Run **setup.sh** in your terminal:  
 ```./setup.sh```  
