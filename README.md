@@ -35,25 +35,16 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 - Clickjacker (redirect to another URI once user click somewhere on the website)
 
 ## Installation
-Download the Github repo into your local machine:  
+- Download the Github repo into your local machine:  
 ```https://github.com/kleiton0x00/XSScope.git```  
-Download all the required libraries:  
-```
-tk
-pyngrok
-zipfile
-pyperclip
-requests
-```
-Note: Zipfile library is not required if you are using Linux/MacOS.
+- Install the required Python3 libraries (run the command inside XSScope directory):  
+```pip3 -r install requirements.txt```  
+**Note:** Zipfile library is not required if you are using Linux/MacOS.  
+- Run **setup.sh**
+```./setup.sh```  
+**NOTE**: If **setup.sh** script asks for Ngrok Authtoken, you have to create an account [HERE](https://ngrok.com/) and grab the Authtoken.  
 
-**NOTE**: Before running script, make sure to put your [Ngrok Authtoken](https://ngrok.com/) into _/xsscope/config/ngrok_authtoken.txt_  
-First install [Ngrok](https://ngrok.com/) and get the AuthToken. Then execute this command to setup Ngrok:  
-```./ngrok authtoken paste_auth_token_here```  
-
-If you want to use Reverse Shell module, please paste the URL domain generated in terminal (example: server-4c98fe66.localhost.run) into ```/config/tcpserver_domain.txt```  
-
-You are good to go, now run the software by executing:  
+- You are good to go, now run the software by executing:  
 ```python3 xsscope.py```  
 
 For more detailed usage please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Usages)
