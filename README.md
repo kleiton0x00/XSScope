@@ -47,7 +47,7 @@ requests
 ```
 Note: Zipfile library is not required if you are using Linux/MacOS.
 
-**NOTE**: Before running script, make sure to put your [Ngrok Authtoken](https://ngrok.com/) into _/xsscope-master/ngrok_authtoken.txt_  
+**NOTE**: Before running script, make sure to put your [Ngrok Authtoken](https://ngrok.com/) into _/xsscope/config/ngrok_authtoken.txt_  
 First install [Ngrok](https://ngrok.com/) and get the AuthToken. Then execute this command to setup Ngrok:  
 ```./ngrok authtoken paste_auth_token_here```  
 
