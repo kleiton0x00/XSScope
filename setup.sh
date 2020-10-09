@@ -50,7 +50,7 @@ printf "\n\n\e[1;93m[!] Setup status: [2/3]\e[0m"
 printf "\n\n[*] Installing the required Python Libraries..."
 sleep 1
 sudo apt-get install python3-tk
-sudo pip3 install pyngrok pyperclip requests zipfile
+pip3 install pyngrok pyperclip requests zipfile
 
 printf "\n\n\e[1;93m[!] Setup status: [3/3]\e[0m"
 printf "\n\n[+] Setup is successfully completed."
