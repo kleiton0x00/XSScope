@@ -37,9 +37,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 ## Installation
 - Download the Github repo into your local machine:  
 ```https://github.com/kleiton0x00/XSScope.git```  
-- Install the required Python3 libraries (run the command inside XSScope directory):  
-```pip3 -r install requirements.txt```  
-**Note:** Zipfile library is not required if you are using Linux/MacOS.  
+**Note:** Zipfile library is not required if you are using Linux/MacOS. Ignore the error.  
 - Run **setup.sh**
 ```./setup.sh```  
 **NOTE**: If **setup.sh** script asks for Ngrok Authtoken, you have to create an account [HERE](https://ngrok.com/) and grab the Authtoken.  
