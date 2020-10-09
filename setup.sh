@@ -1,21 +1,39 @@
 #!/bin/bash
 if [[ -e ngrok ]]; then
-echo "[*] Ngrok is installed, no need to setup."
+echo "[*] Ngrok is already installed, no need to setup."
 exit
 
 else
 
-printf "\n\e[1;93m[!] Setup status: [0/3]\e[0m"
+printf "[*] Getting system specifications...\n"
 sleep 1
-printf "\n\n[*] Ngrok is not installed, installing it now...\n"
-wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip > /dev/null 2>&1
-if [[ -e ngrok-stable-linux-arm.zip ]]; then
-unzip ngrok-stable-linux-arm.zip > /dev/null 2>&1
+system_info=$(uname -m)
+
+if [[ $system_info == 'x86_64' ]]; then
+printf "\n[*] Downloading 64bit version of Ngrok...\n"
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip
+if [[ -e ngrok-stable-linux-amd64.zip ]]; then
+unzip ngrok-stable-linux-amd64.zip > /dev/null 2>&1
 chmod +x ngrok
-rm -rf ngrok-stable-linux-arm.zip
+rm -rf ngrok-stable-linux-amd64.zip
 else
-printf "\e[1;93m[-] Download error... Termux, run:\e[0m\e[1;77m pkg install wget\e[0m\n"
+printf "\e[1;93m[!] Download error... Terminal, run:\e[0m\e[1;77m pkg install wget\e[0m\n"
 exit 1
+fi
+
+
+if [[ $system_info == 'i686' ]]; then
+printf "\n[*] Downloading 32bit verson of Ngrok...\n"
+wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
+if [[ -e ngrok-stable-linux-386.zip ]]; then
+unzip ngrok-stable-linux-386.zip > /dev/null 2>&1
+chmod +x ngrok
+rm -rf ngrok-stable-linux-386.zip
+else
+printf "\e[1;93m[!] Download error... Terminal, run:\e[0m\e[1;77m pkg install wget\e[0m\n"
+exit 1
+fi
+fi
 fi
 fi
 
@@ -50,7 +68,7 @@ printf "\n\n\e[1;93m[!] Setup status: [2/3]\e[0m"
 printf "\n\n[*] Installing the required Python Libraries..."
 sleep 1
 sudo apt-get install python3-tk
-pip3 install pyngrok pyperclip requests zipfile
+sudo pip3 install pyngrok pyperclip requests zipfile
 
 printf "\n\n\e[1;93m[!] Setup status: [3/3]\e[0m"
 printf "\n\n[+] Setup is successfully completed."
