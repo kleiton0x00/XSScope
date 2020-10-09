@@ -40,6 +40,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 ```cd XSScope```  
 **Note:** Zipfile library is not required if you are using Linux/MacOS. Ignore the error.  
 - Run **setup.sh** in your terminal:  
+```chmod +x setup.sh```  
 ```./setup.sh```  
 **NOTE**: If **setup.sh** script asks for Ngrok Authtoken, you have to create an account [HERE](https://ngrok.com/) and grab the Authtoken.  
 
