@@ -64,7 +64,9 @@ For Demo go to [Wiki/Demo](https://github.com/kleiton0x00/XSScope/wiki/Demo)
 ##### Generated XSS Payloads  
 ![XSScope_in_action3](https://i.imgur.com/c7DESrZ.png)  
 ##### Generating Advanced Phishing HTML Website using XSS vulnerability
-![XSScope_in_action4](https://i.imgur.com/8CfVyFP.png)
+![XSScope_in_action4](https://i.imgur.com/8CfVyFP.png)  
+##### Performing RCE into victim's browser  
+![XSScope_RCE](https://i.imgur.com/tPE7eR2.png)  
 
 ## Legal disclaimer:
 
