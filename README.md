@@ -47,7 +47,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 - You are good to go, now run the software by executing:  
 ```python3 xsscope.py```  
 
-For more detailed usage please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Usages)
+For more detailed installation manual please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Installation)
 
 ## FAQ
 Please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/FAQ) for more advanced tips.
