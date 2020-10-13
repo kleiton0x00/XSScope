@@ -14,6 +14,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 - Get every Entry form value that victim enters in the website
 - Get victim's cookies (if any)
 - Keylogger  
+- Screenshot victim's browser
 
 #### HTML code injection  
 - Generate Phishing Websites with 2 clicks using pregenerated HTML codes such as:
