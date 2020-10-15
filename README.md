@@ -11,10 +11,13 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 
 #### Spying Features  
 - Camera Hijacking
-- Get every Entry form value that victim enters in the website
+- Get victim's saved credentials from the vulnerable website
 - Get victim's cookies (if any)
 - Keylogger  
-- Screenshot victim's browser
+- Screenshot victim's browser  
+- Get victim's real-time location
+- Execute .NET Shellcode commands
+- Force download malicious file
 
 #### HTML code injection  
 - Generate Phishing Websites with 2 clicks using pregenerated HTML codes such as:
@@ -29,7 +32,10 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 - Generate Website Defacion with 2 clicks using a HTML template
 - Import HTML file from external file
 - Add your own HTML code
- 
+
+#### C2 Like-Framework
+- Execute Javascript code into victim's browser once a shell is opened in your listener
+
 #### Funny modules:   
 - Change every link in the website
 - Change every image in the website
