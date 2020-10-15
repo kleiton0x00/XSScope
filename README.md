@@ -12,7 +12,7 @@ XSScope is an advanced XSS payload generator platform for Client-Side attacks an
 #### Spying Features  
 - Camera Hijacking
 - Get victim's saved credentials from the vulnerable website
-- Get victim's cookies (if any)
+- Gather information about victim (Browser, version, Operating System, User Agent, Cookie (if any), Java enabled, Online status, Language used, Cookie enabled)  
 - Keylogger  
 - Screenshot victim's browser  
 - Get victim's real-time location
