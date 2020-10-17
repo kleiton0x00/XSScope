@@ -2,7 +2,7 @@
 
 **_Go beyond the alert_**
 
-XSScope is an advanced XSS payload generator platform for Client-Side attacks and also with an aim of increaing the impact of an XSS during Bug Hunting. Using all modules that XSScope offers, advanced XSS can be simply use with 1-2 click(s).
+XSScope is one of the most advanced GUI Framework for XSS Clientside attacks. It can perform different XSS attack and HTML Injection in real time. 
 
 ## Features  
 - Generates a Port Forwarding TCP and a Local PHP Server as well
