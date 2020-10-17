@@ -67,13 +67,13 @@ For Demo go to [Wiki/Demo](https://github.com/kleiton0x00/XSScope/wiki/Demo)
 ##### XSScope Main Interface.  
 ![XSScope_in_action1](https://i.imgur.com/0o0Xrfs.png)  
 ##### Creating an Agent Module.  
-![XSScope_in_action2](https://i.imgur.com/ICTM3bo.png)  
+![XSScope_in_action2](https://i.imgur.com/dPaV2Gy.png)  
 ##### Generated XSS Payloads  
 ![XSScope_in_action3](https://i.imgur.com/c7DESrZ.png)  
-##### Generating Advanced Phishing HTML Website using XSS vulnerability
+##### Generating Advanced Phishing Website using HTML Injection
 ![XSScope_in_action4](https://i.imgur.com/8CfVyFP.png)  
 ##### Performing RCE into victim's browser  
-![XSScope_RCE](https://i.imgur.com/tPE7eR2.png)  
+![XSScope_RCE](https://i.imgur.com/Srd9euF.png)  
 
 ## Legal disclaimer:
 
