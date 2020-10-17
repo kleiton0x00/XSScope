@@ -52,7 +52,7 @@ def about():
 def agent_module():
     root1 = tk.Toplevel()
     root1.title("XSScope v2.1 - Customise your attack")
-    root1.geometry('1045x410')
+    root1.geometry('1045x360')
     #root1.iconbitmap('x_logo_VYw_icon.ico')
     root1.resizable(0,0)
 
@@ -436,15 +436,9 @@ link.click();
             loading_bar['value'] = 100
             root1.update_idletas
 
-    help_frame = LabelFrame(root1, text="")
-    help_frame.place(x=685, y=14)
-
-    help_button = tk.Button(help_frame, text="?", command=print_help)
-    help_button.grid(row=0, column=0)
-
     #xss module frame
     root2_frame = LabelFrame(root1, text="XSS Module Frame")
-    root2_frame.place(x=5, y=55)
+    root2_frame.place(x=5, y=5)
 
     xss_keylogger = tk.Checkbutton(root2_frame, text="Keyboard spying (active keylogger)                                                                         ", variable=xss_keylogger_var)
     xss_keylogger.grid(row=1, column=0)
@@ -494,7 +488,7 @@ link.click();
 
     #-----------xss modules frames (for fun) inside the main module frame
     root3_frame = LabelFrame(root1, text="Fun Module Frame")
-    root3_frame.place(x=5, y=265)
+    root3_frame.place(x=5, y=215)
 
     xss_changelinks = tk.Checkbutton(root3_frame, text="Change every link in the website.         ", variable=xss_changelinks_var, command=changelink_function)
     xss_changelinks.grid(row=0, column=0)
@@ -525,7 +519,7 @@ link.click();
 
     #-------Output of the loading bar and button
     root5_frame = LabelFrame(root1, text="")
-    root5_frame.place(x=5, y=365)
+    root5_frame.place(x=5, y=315)
 
     loading_bar = ttk.Progressbar(root5_frame, orient = HORIZONTAL, length= 885, mode = 'determinate')
     loading_bar.grid(row=0, column=0)
