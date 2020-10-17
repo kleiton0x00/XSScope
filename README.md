@@ -90,7 +90,5 @@ Ways to contribute
 
 Licensed under the GNU GPLv3, see [LICENSE](https://github.com/kleiton0x00/XSScope/blob/master/LICENSE) for more information.
 
-The Favicon Webcam Image generated (in Webcam Hijacking module) is taken & modified from [wybircal](https://github.com/wybiral).
-
 ## Contact
 For any problem, copyright disclaimers, etc. please feel free to email me: ```kurtikleiton@gmail.com```
