@@ -37,6 +37,7 @@ fi
 fi
 fi
 
+
 printf "[+] Ngrok installed."
 sleep 1
 printf "\n[*] Setting up Ngrok Authtoken...\n"
@@ -51,25 +52,15 @@ printf "[+] Ngrok authtoken saved to config file.\n"
 rm -rf ngrok
 sleep 1
 
-printf "\n\e[1;93m[!] Setup status: [1/3]\e[0m"
+printf "\n\e[1;93m[!] Setup status: [1/2]\e[0m"
 sleep 1
 
-printf "\n\n[*] Setting up a TCP tunnel..."
-sleep 1
-printf "\n[?] From another Terminal, run this: \e[1;93mssh -R 80:localhost:1338 ssh.localhost.run\e[0m"
-sleep 1
-printf "\n"
-echo [?] Paste the URL domain here [e.x format: server-325234.localhost.run]:
-read server
-echo $server > tcpserver_domain.txt
-
-printf "\n\n\e[1;93m[!] Setup status: [2/3]\e[0m"
 
 printf "\n\n[*] Installing the required Python Libraries..."
 sleep 1
 sudo apt-get install python3-tk
 sudo pip3 install pyngrok pyperclip requests zipfile
 
-printf "\n\n\e[1;93m[!] Setup status: [3/3]\e[0m"
+printf "\n\n\e[1;93m[!] Setup status: [2/2]\e[0m"
 printf "\n\n[+] Setup is successfully completed."
 exit
