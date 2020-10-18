@@ -1216,12 +1216,14 @@ def main():
 
     server_ip_entry = tk.Entry(manual_setup_frame, width=38)
     server_ip_entry.grid(row=0, column=1)
+    server_ip_entry.configure(state="disabled")
 
     server_port_label = tk.Label(manual_setup_frame, text="Server Port: ")
     server_port_label.grid(row=1, column=0)
 
     server_port_entry = tk.Entry(manual_setup_frame, width=38)
     server_port_entry.grid(row=1, column=1)
+    server_port_entry.configure(state="disabled")
 
     # beacon config frame
     beacon_frame = tk.LabelFrame(root_main, text="")
@@ -1266,7 +1268,7 @@ def main():
             main1()
 
     def help_connect():
-        webbrowser.open("https://github.com/kleiton0x00/XSScope/wiki", new=1)
+        webbrowser.open("https://github.com/kleiton0x00/XSScope/wiki/FAQ#what-is-beacon-interval", new=1)
 
     connect_button = tk.Button(button_frame, text="Connect", command=start_xsscope)
     connect_button.grid(row=0, column=0)
