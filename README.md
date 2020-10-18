@@ -56,7 +56,7 @@ XSScope is one of the most advanced GUI Framework for XSS Clientside attacks. It
 
 For more detailed installation manual please refer the [Wiki](https://github.com/kleiton0x00/XSScope/wiki/Installation)
 
-## FLOWCHART
+## Flowchart
 ![xsscope_flowchart](https://i.imgur.com/MPxytQ3.jpg)
 
 ## FAQ
