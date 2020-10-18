@@ -1,3 +1,4 @@
+#! /usr/bin/env python3
 import shutil
 import webbrowser  # just for help to redirect to github project page
 from sys import platform  # avoid error(s) on unsupported commands
