@@ -6,6 +6,7 @@ XSScope is one of the most advanced GUI Framework for XSS Clientside attacks. It
 
 ## Features  
 - Perform XSS botnet attack(s). Every victim who is affected by XSS payload (in the webserver), will contantly bind the payload and wait for commands from attacker. A bind payload is one that waits for a connection from its controller.
+- HTTP Flood (DDos) via XSS botnets  
 - Generates a Port Forwarding TCP and a Local PHP Server as well
 - Automatic payload generator for Bug Hunting (Blind, Stored, Reflected & DOM XSS)  
 - Generate Local HTTP Server
