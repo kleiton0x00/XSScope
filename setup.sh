@@ -22,7 +22,7 @@ exit 1
 fi
 
 
-if [[ $system_info == 'i686' ]]; then
+elif [[ $system_info == 'i686' ]]; then
 printf "\n[*] Downloading 32bit verson of Ngrok...\n"
 wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
 if [[ -e ngrok-stable-linux-386.zip ]]; then
