@@ -58,7 +58,7 @@ sleep 1
 printf "\n\n[*] Installing the required Python Libraries..."
 sleep 1
 sudo apt-get install python3-tk
-sudo pip3 install pyperclip requests zipfile
+sudo pip3 install pyperclip requests
 pip3 install pyngrok
 
 printf "\n\n\e[1;93m[!] Setup status: [2/2]\e[0m"
