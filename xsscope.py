@@ -3,7 +3,6 @@ import shutil
 import webbrowser  # just for help to redirect to github project page
 from sys import platform  # avoid error(s) on unsupported commands
 import requests
-import zipfile
 import io
 import pyperclip  # to copy payloads into clipboard
 
@@ -562,23 +561,10 @@ def check_update():
     if old_version < new_version:
         update = tkinter.messagebox.askquestion("Check for update", "There is a newer version, do you want to update?")
         if update == 'yes':
-            if platform == "linux" or platform == "linux2":
-                os.chdir("..")
-                shutil.rmtree('XSScope')
-                os.system("git clone https://github.com/kleiton0x00/XSScope.git")
-                tkinter.messagebox.showinfo("Successful update",
-                                            "Software successfuly updated, please restart the application.")
-
-            if platform == "win32":
-                os.system('cd ..')
-                current_directory = os.getcwd()
-                request = requests.get("https://github.com/kleiton0x00/XSScope/archive/master.zip")
-                zip_file = zipfile.ZipFile(io.BytesIO(request.content))
-                zip_file.extractall(current_directory)
-                tkinter.messagebox.showinfo("Successful update", "File successfuly extracted in: " + current_directory)
-                tkinter.messagebox.showinfo("Successful update",
-                                            "Software successfuly updated, please restart the application.")
-
+	    os.chdir("..")
+	    shutil.rmtree('XSScope')
+	    os.system("git clone https://github.com/kleiton0x00/XSScope.git")
+	    tkinter.messagebox.showinfo("Successful update","Software successfuly updated, please restart the application.")
 
 # functions of the main frame
 
