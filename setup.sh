@@ -43,12 +43,11 @@ printf "\n[*] Setting up Ngrok Authtoken...\n"
 sleep 1
 echo [?] Paste Ngrok Authtoken here:
 read authtoken
-ngrok authtoken $authtoken
+./ngrok authtoken $authtoken
 printf "[+] Ngrok activated. Configuring files\n"
 cd config
 echo $authtoken > ngrok_authtoken.txt
 printf "[+] Ngrok authtoken saved to config file.\n"
-rm -rf ngrok
 sleep 1
 
 printf "\n\e[1;93m[!] Setup status: [1/2]\e[0m"
