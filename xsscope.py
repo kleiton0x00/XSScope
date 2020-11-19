@@ -561,10 +561,10 @@ def check_update():
     if old_version < new_version:
         update = tkinter.messagebox.askquestion("Check for update", "There is a newer version, do you want to update?")
         if update == 'yes':
-	    os.chdir("..")
-	    shutil.rmtree('XSScope')
-	    os.system("git clone https://github.com/kleiton0x00/XSScope.git")
-	    tkinter.messagebox.showinfo("Successful update","Software successfuly updated, please restart the application.")
+            os.chdir("..")
+            shutil.rmtree('XSScope')
+            os.system("git clone https://github.com/kleiton0x00/XSScope.git")
+            tkinter.messagebox.showinfo("Successful update","Software successfuly updated, please restart the application.")
 
 # functions of the main frame
 
