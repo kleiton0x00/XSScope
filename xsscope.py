@@ -1355,7 +1355,7 @@ def main():
             if int(tcp_server_port) > 65535:
                 tkinter.messagebox.showerror("Invalid PORT number", "PORT must be a number between 0-65535")
                 return
-            tcp_server = tcp_server_port + ":" + tcp_server_port
+            tcp_server = tcp_server_ip + ":" + tcp_server_port
             root_main.destroy()
             main1()
 
