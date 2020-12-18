@@ -1,3 +1,7 @@
+![GitHub](https://img.shields.io/github/license/kleiton0x00/xsscope)
+![Build Status](https://img.shields.io/badge/Build-Passing-green)
+![GitHub top language](https://img.shields.io/github/languages/top/kleiton0x00/xsscope)
+
 ![XSS_scope](https://i.imgur.com/rSRvUx3.png)  
 
 **_Go beyond the alert_**
