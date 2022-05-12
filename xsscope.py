@@ -1330,11 +1330,11 @@ def main():
 
             # open a http tunnel on port 1337
             tcp_server = ngrok.connect(1337, "tcp")
-            tcp_server = str(tcp_server[6:])
+            tcp_server = str(tcp_server.public_url)
 
             # dividing IP and PORT in output displaying in each respective Entry
-            tcp_server_ip = str(tcp_server[:-6])
-            tcp_server_port = str(tcp_server[15:])
+            tcp_server_ip = str(tcp_server.split('/')[2]).split(':')[0]
+            tcp_server_port = tcp_server.split(':')[2]
             root_main.destroy()
             main1()
         elif setup_var.get() == 2:
